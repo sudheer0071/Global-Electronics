@@ -5,7 +5,7 @@ export default function Home() {
     <Image  quality="100"
          className=" opacity-30" layout="fill" alt="" src={'/fan.jpg'}/>
          <div className=" text-2xl font-medium">
-            Its on progress launching soon....
+            Its on progress, In launching soon....
          </div>
   </div>
 }

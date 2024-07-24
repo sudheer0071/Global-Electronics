@@ -1,11 +1,20 @@
 import Image from "next/image";
+import Main from "./pages/home";
+import { Products } from "./pages/product";
+import { MidPage } from "./pages/MidPage";
+import { Companies } from "./pages/Companies";
+import { About } from "./pages/about";
+import { Advantages } from "./pages/advantage";
+import { Contacts } from "./pages/contacts";
 
-export default function Home() {
-  return <div className=" h-screen flex justify-center items-center">
-    <Image  quality="100"
-         className=" opacity-30" layout="fill" alt="" src={'/fan.jpg'}/>
-         <div className=" text-2xl font-medium">
-            Its on progress, In launching soon....
-         </div>
+export default function Home() { 
+  return <div>
+    <Main/>
+    <Products/>
+    < MidPage/>
+    <Companies/>
+    <About/>
+    <Advantages/>
+    <Contacts/>
   </div>
 }

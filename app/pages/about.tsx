@@ -3,7 +3,7 @@ export const About = ()=>{
     <div className="container mx-auto px-2 w-full max-w-screen-xl box-border ">
       <div className=" ml-auto m-0 p-custom reltive z-20 madx-w-xl w-3/6 ">
         <div className=" text-yellow-400 font-medium text-3xl t">
-          India's #1
+          India{"'"}s #1
         </div>
         <div className=" mt-6 text-4xl font-semibold ">
         Industrial Automation Products Distributor

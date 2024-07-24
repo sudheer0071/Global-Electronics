@@ -12,7 +12,7 @@ export const Companies = ()=>{
     </div>
     </div>
     <div className=" grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 lg:grid-cols-5 mt-16 transition-all">
-      {companies.map((company, idx)=><CompaniesCard num={idx} company={company} />)}
+      {companies.map((company, idx)=><CompaniesCard key={idx} num={idx} company={company} />)}
      
     </div>
   </div>

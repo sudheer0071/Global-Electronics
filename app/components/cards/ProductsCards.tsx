@@ -17,7 +17,7 @@ export const ProducCards = ({heading, image, companies}:productProps)=>{
       <img width={470} alt="" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} />
      </div>
      <div className=" px-5 py-4 shadow-lg -mt-14 text-black grid grid-cols-2">
-       {companies.map((company)=><Companies name={company}/>)}  
+       {companies.map((company, idx)=><Companies key={idx} name={company}/>)}  
      </div>
      <div className=" ">
      <Button height={10} productCard={true} label={"View More >>"} onclick={''}/>

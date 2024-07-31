@@ -23,9 +23,7 @@ export const ProducCards = ({heading, image, companies}:productProps)=>{
      <Button height={10} productCard={true} label={"View More >>"} onclick={''}/>
      </div>
   </div>
-} 
-
-
+}  
 function Companies({name}:{name:string}){
   return <div className=" mt-4 text-lg font-medium cursor-pointer hover:text-sky-700">
     <ExternalLink size={15} className=" inline"/>  {name}

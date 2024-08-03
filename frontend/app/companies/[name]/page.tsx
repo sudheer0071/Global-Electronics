@@ -4,6 +4,7 @@ import { useParams} from 'next/navigation'
 import { NextPage } from 'next';
 import { useEffect, useState } from "react"; 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
  
 const Company:NextPage = ()=>{
   // const [company, setCompany] = useState<string | string[] | undefined>();
@@ -71,7 +72,7 @@ const Company:NextPage = ()=>{
           We carry the following products from {Companies.companyName} but not limited to
           </div> 
           <div className=" mt-10 grid grid-cols-4"> 
-            {Companies.products.map((product,idx)=><Products key={idx} model={product.model} image={product.image} />) } 
+            {Companies.products.map((product,idx)=><Products name={name} key={idx} model={product.model} image={product.image} />) } 
           </div>
         </div> 
       </div>
@@ -79,14 +80,17 @@ const Company:NextPage = ()=>{
 }
 
 
-const Products = ({model, image}:{model:string, image:string})=>{
+const Products = ({name,model, image}:{name:string, model:string, image:string})=>{
   return <div>
+      <Link href={`/companies/${name}/${encodeURIComponent(model)}`}> 
+
     <div className=" ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
         <img className=" rounded-lg hover:shadow-2xl transition-all duration-500" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />
         <div className=" mt-2 text-center text-xl font-semibold">
           {model}
         </div>
     </div>
+      </Link>
   </div>
 }
 

@@ -1,4 +1,4 @@
-import { CompaniesCard } from "../components/cards/companiesCard"
+import { CompaniesCard } from "../cards/companiesCard"
 
 export const Companies = ()=>{
   const companies = ["Pro-face","Mitsubishi", "Omron", "Fanux", "Delta", "HITECH", "Yashkawa", "Keyence", "Sick", "Panacsonic", "intek/Weinvi", "Schneider", "Siemens" ,"Hongfa"] 

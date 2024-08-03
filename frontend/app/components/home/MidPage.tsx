@@ -1,5 +1,5 @@
 import { Wrench } from "lucide-react"
-import { Button } from "../components/Button"
+import { Button } from "../Button"
 
 export const MidPage = ()=>{
   return  <div className=" bg-white flex">

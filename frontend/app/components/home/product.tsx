@@ -1,5 +1,5 @@
-import { Button } from "../components/Button"
-import { ProducCards } from "../components/cards/ProductsCards"
+import { Button } from "../Button"
+import { ProducCards } from "../cards/ProductsCards"
 
 export const Products = ()=>{
 

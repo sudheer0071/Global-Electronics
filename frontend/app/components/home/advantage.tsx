@@ -1,4 +1,4 @@
-import { AdvantageCard } from "../components/cards/AdvantageCard"
+import { AdvantageCard } from "../cards/AdvantageCard"
 
 export const Advantages = ()=>{
   return <div className=" max-w-screen-2xl bg-white text-black">

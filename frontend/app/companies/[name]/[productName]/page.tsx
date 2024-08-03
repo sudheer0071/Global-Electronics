@@ -4,8 +4,16 @@ import { Button } from "@/app/components/Button"
 import { ChevronsLeftIcon, ChevronsRightIcon, Minus, Plus } from "lucide-react"
 import { useState } from "react"
 import { motion } from 'framer-motion'
+import { useParams } from "next/navigation"
+import Link from "next/link"
 
 const Products = () => {
+
+  const { productName } = useParams()
+
+  console.log(productName);
+
+
   const images = [
     "HG-KR73BJ-5-1.jpg",
     "HF-KP73-3-1-1.jpg",
@@ -31,7 +39,26 @@ const Products = () => {
     {
       name: "Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J",
       image: "HG-KR73BJ-3-1.jpg"
-    }, 
+    },
+
+    {
+      name: "Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J",
+      image: "HG-KR73BJ-3-1.jpg"
+    },
+    {
+      name: "Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J",
+      image: "HG-KR73BJ-3-1.jpg"
+    },
+
+    {
+      name: "Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J",
+      image: "HG-KR73BJ-3-1.jpg"
+    },
+    {
+      name: "Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J",
+      image: "HG-KR73BJ-3-1.jpg"
+    },
+
   ]
   const specs = [
     {
@@ -75,7 +102,7 @@ const Products = () => {
   const services = [
     {
       image: "icon1.png",
-      name: "After Hours Shipping       ",
+      name: "After Hours Shipping ",
     },
     {
       image: "icon2.png",
@@ -254,14 +281,15 @@ const Products = () => {
           <div className=" max-w-xl w-6/12 h-1 bg-[#ffd447] ml-auto mt-4"></div>
         </div>
         <div>
-          <div className=" relative overflow-hidden max-w-sdcreen-xl">
+          <div className=" relative overflow-hidden pt-10 pb-20">
             <motion.div
-
               animate={{ x: `-${relatedIndex * 100}%` }}
-              transition={{ duration: 2.7, ease: [0.32, 0.72, 0, 1] }}
-              className=" flex overflow-x-scroll">
-              {related.map((image) => <RelatedProducts name={image.name} image={image.image} />)}
-
+              transition={{ duration: 2.7, ease: [0.32, 0.72, 0, 1] }}  
+              className=" flex md:gap-10  lg:gap-">
+              
+              {related.map((images, index) => (
+           <RelatedProducts key={images.image} image={images.image} company="mitshibishi" name={images.name} /> 
+              ))} 
             </motion.div>
             {relatedIndex > 0 && (
               <motion.button
@@ -324,24 +352,28 @@ const Service = ({ image, head, num }: { num: number, image: string, head: strin
         <img width={100} src={`https://www.plc-sensors.com/wp-content/themes/mml-theme/dist/img/p02-1-1-1/s03-${image}`} alt="" />
       </div>
       <div className=" text-xl font-semibold w-2/ text-center text-black mt-4 pb-7">
-        {head}
-        {/* After Hours Shipping */}
+        {head} 
       </div>
     </div>
   </div>
 }
 
-const RelatedProducts = ({ image, name }: { image: string, name: string }) => {
-  return <div className=" px-3 w-max">
-
-    <img
-      key={image}
-      width={400}
-      src={`https://www.plc-sensors.com/wp-content/uploads/2020/05/${image}`} className="aspect-[3/3] object-cover w-full" alt="" />
-    <div className=" mt-9 text-lg font-medium text-black text-center">
-
-      {name}
-    </div>
+const RelatedProducts = ({ company, image, name }: { company: string, image: string, name: string }) => {
+  return <div className=" shrink-0 transition-all duration-500 hover:text-blue-500  hover:scale-110 hover:shadow-2xl">
+    <Link href={`/companies/${company}/${encodeURIComponent(name)}`}> 
+    <div className=" flex justify-center items-center">
+      <img
+        key={image}
+        width={220}
+        src={`https://www.plc-sensors.com/wp-content/uploads/2020/05/${image}`}
+        className=" aspect-[3/3] object-cover"
+        alt=""
+        />
+        </div>
+      <div className="mt-9 text-lg font-medium max-w-xs text-center cursor-pointer">
+    {name}
+  </div>
+    </Link>
   </div>
 }
 

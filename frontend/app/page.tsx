@@ -1,11 +1,12 @@
 import Image from "next/image";
-import Main from "./pages/home";
-import { Products } from "./pages/product";
-import { MidPage } from "./pages/MidPage";
-import { Companies } from "./pages/Companies";
-import { About } from "./pages/about";
-import { Advantages } from "./pages/advantage";
-import { Contacts } from "./pages/contacts";
+import Main from "./components/home/home";
+import { Products } from "./components/home/product";
+import { MidPage } from "./components/home/MidPage";
+import { Companies } from "./components/home/Companies";
+import { About } from "./components/home/about";
+import { Advantages } from "./components/home/advantage";
+import { Contacts } from "./components/home/contacts";
+import { Footer } from "./components/cards/Footer";
 
 export default function Home() { 
   return <div>
@@ -14,7 +15,6 @@ export default function Home() {
     < MidPage/>
     <Companies/>
     <About/>
-    <Advantages/>
-    <Contacts/>
+    <Advantages/> 
   </div>
 }

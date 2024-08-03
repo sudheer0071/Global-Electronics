@@ -4,7 +4,7 @@ import TopCard from "../components/cards/TopCard"
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
- const AllCompanies = ({label}:{label:string})=>{
+ const AllCompanies = ()=>{
   const router = useRouter()
   const company = [
     {

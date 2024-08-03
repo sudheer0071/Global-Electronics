@@ -23,8 +23,8 @@ import Link from 'next/link'
        Your Strong Servomotor Distributor
         </div>
     {company.map((comp, idx)=>(
-      <Link href={`/companies/${encodeURIComponent(comp.name)}`}>
-      <p className=" text-black text-3xl">{comp.name}</p>
+      <Link key={idx} href={`/companies/${encodeURIComponent(comp.name)}`}>
+      <p key={idx} className=" text-black text-3xl">{comp.name}</p>
       <br />
       <img key={idx} src={`https://www.plc-sensors.com/wp-content/uploads/${comp.image}`} alt="" />
       </Link>

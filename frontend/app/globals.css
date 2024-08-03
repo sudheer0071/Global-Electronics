@@ -127,3 +127,29 @@ body {
     display: block;
     content: '';
 } 
+
+.details::before{
+  /* position: absolute; */
+  top: 10px;
+  margin-top: 10px;
+  left: 0;
+  width: 10px;
+  height: 7px;
+  background-color: #348ad4;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display: block;
+  content: '';
+}
+
+.service::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* z-index: -1; */
+  width: 44.2%;
+  height: 71%;
+  background-color: #348ad4;
+  display: block;
+  content: '';
+}

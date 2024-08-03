@@ -8,13 +8,7 @@ import { useRouter } from "next/navigation";
 const Company:NextPage = ()=>{
   // const [company, setCompany] = useState<string | string[] | undefined>();
   const router = useRouter()
-  const  name = useParams()
-  
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     setCompany(name);
-  //   }
-  // }, [router.isReady, name]);
+  const {name}  = useParams() 
  
     const Companies =   {
       companyName:"Mitsubishi",
@@ -43,15 +37,13 @@ const Company:NextPage = ()=>{
           image:"2021/02/Mitsubishi-VFD-1.jpg"
         },
       ]
-    } 
-    // console.log(company);
-    console.log(name);
+    }   
      
-  // if (company!='mitsubishi') {
-  //   return <div> 
-  //     Loding...
-  //   </div>
-  // }
+  if (name!='mitsubishi') {
+    return <div> 
+      Loding...
+    </div>
+  } 
 
   return <div>
     <TopCard label={Companies.companyName} />
@@ -60,12 +52,14 @@ const Company:NextPage = ()=>{
           {Companies.header} 
         </div>
         <div id="comp" className=" text-black py-12 mt-12 ">
-          <div className=" flex px-4 mx-28">
-          <div className=" relative"> 
-            <img className="shadow-2xl ml-12" src={`https://www.plc-sensors.com/wp-content/uploads/${Companies.image}}`} alt="" /> 
+          <div className=" px-4 max-w-7xl w-full mx-auto">
+          <div className=" flex">
+          <div className=" z-0 hd"> 
+            <img className="shadow-2xl ml-10" src={`https://www.plc-sensors.com/wp-content/uploads/${Companies.image}}`} alt="" /> 
           </div>
           <div className=" ml-24 max-w-2xl font-light">
             {Companies.about.map((about, idx)=><p className=" mt-8" key={idx}>{about}</p>)} 
+          </div>
           </div>
           </div>
         </div>
@@ -88,7 +82,7 @@ const Company:NextPage = ()=>{
 const Products = ({model, image}:{model:string, image:string})=>{
   return <div>
     <div className=" ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
-        <img className=" rounded-lg hover:shadow-xl transition-all duration-500" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />
+        <img className=" rounded-lg hover:shadow-2xl transition-all duration-500" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />
         <div className=" mt-2 text-center text-xl font-semibold">
           {model}
         </div>

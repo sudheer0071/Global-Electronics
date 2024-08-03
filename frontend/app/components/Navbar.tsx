@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { cn } from "../lib/utils";
 import { Button } from "./Button";
+import Link from "next/link";
+
+
 
 export default function Navbar() {
   return (
@@ -47,11 +50,11 @@ function NavbarCheck({ className }: { className?: string }) {
               </div>
             </MenuItem>
             <MenuItem setActive={setActive} active={active} item={"Companies"}>
-              <div className="flex flex-col space-y-4 text-sm">
-                {companies.map((company) => {
+              <div onClick={()=>{}} className="flex flex-col space-y-4 text-sm">
+                {companies.map((company, idx) => {
                   const formattedCompany = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
                   return (
-                    <HoveredLink href={`/companies/${company}`}>
+                    <HoveredLink key={idx} href={`/companies/${company}`}>
                       {formattedCompany}
                     </HoveredLink>
                   );

@@ -266,7 +266,7 @@ const Products = () => {
             <div className=" w-32 h-1 bg-white mt-5"></div>
           </div>
           <div className="flex flex-wrap">
-            {services.map((service, idx) => <Service num={idx} head={service.name} image={service.image} />)}
+            {services.map((service, idx) => <Service key={idx} num={idx} head={service.name} image={service.image} />)}
           </div>
         </div>
       </div>

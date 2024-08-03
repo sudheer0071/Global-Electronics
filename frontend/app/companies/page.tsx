@@ -22,11 +22,11 @@ import Link from 'next/link'
         <div className=" text-4xl text-black font-semibold flex justify-center">
        Your Strong Servomotor Distributor
         </div>
-    {company.map((comp)=>(
+    {company.map((comp, idx)=>(
       <Link href={`/companies/${encodeURIComponent(comp.name)}`}>
       <p className=" text-black text-3xl">{comp.name}</p>
       <br />
-      <img src={`https://www.plc-sensors.com/wp-content/uploads/${comp.image}`} alt="" />
+      <img key={idx} src={`https://www.plc-sensors.com/wp-content/uploads/${comp.image}`} alt="" />
       </Link>
       
     ))}

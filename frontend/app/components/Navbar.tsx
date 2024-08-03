@@ -27,12 +27,17 @@ function NavbarCheck({ className }: { className?: string }) {
     >
       <div className="flex h-20">
 
-        <div className=" bg-white shadow-md flex ">
+        <div className=" bg-white shadow-md flex "> 
           <div className=" p-1 px-5 cursor-pointer" >
+            <Link href={"/"}>
             <img width={80} src="https://5.imimg.com/data5/SELLER/Logo/2023/8/332359348/WL/RS/SO/102816454/logo-90x90.png" alt="" />
+            </Link>
           </div>
+
           <div className=" cursor-pointer text-black text-2xl text-dcenter mt-4 fldex items-center w-[500px] font-medium">
+         <Link href={"/"}>
             Global Electronics Solution
+         </Link>
             <div className=" -mt-3">
               <small className=" text-xs">Global Electronic Solutions, Gurgaon, Gurugram, Haryana</small>
             </div>

@@ -8,11 +8,8 @@ export default function Layout({
 }): JSX.Element {
   return (
     <div className=""> 
-        <div className=""> 
-          <NavBar/>
-          <div className=" mt-20">
-            {children} 
-          </div>
+        <div className="">  
+            {children}  
             <Footer/>
         </div>
     </div>

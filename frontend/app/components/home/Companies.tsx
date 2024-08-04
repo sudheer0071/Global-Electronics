@@ -2,7 +2,7 @@ import Link from "next/link"
 import { CompaniesCard } from "../cards/companiesCard"
 
 export const Companies = ()=>{
-  const companies = ["pro-face", "mitsubishi", "omron", "fanux", "delta", "hITECH", "sashkawa", "seyence", "sick", "sanacsonic", "intek/seinvi", "schneider", "siemens", "songfa"]
+  const companies = ["pro-face", "mitsubishi", "omron", "fanux", "delta", "hITECH", "yashkawa", "keyence", "sick", "panacsonic", "intek/seinvi", "schneider", "siemens", "hongfa"]
   return <div className=" py-32  bg-white text-black"> 
     <div className=" text-4xl font-semibold  flex justify-center">
     A Partial List of Manufacturers

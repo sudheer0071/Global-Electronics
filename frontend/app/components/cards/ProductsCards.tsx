@@ -20,7 +20,7 @@ export const ProducCards = ({heading, image, companies}:productProps)=>{
        {companies.map((company, idx)=><Companies key={idx} name={company}/>)}  
      </div>
      <div className=" ">
-     <Button height={10} productCard={true} label={"View More >>"} onclick={''}/>
+     <Button productCard={true} label={"View More >>"} onclick={''}/>
      </div>
   </div>
 }  

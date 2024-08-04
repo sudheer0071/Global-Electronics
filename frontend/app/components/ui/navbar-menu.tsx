@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 
 const transition = {
   type: "spring",
@@ -26,12 +27,14 @@ export const MenuItem = ({
 }) => {
   return (
     <div onMouseEnter={() => setActive(item)} className="relative ">
-      <motion.p
+      <motion.div
         transition={{ duration: 0.3 }}
         className="cursor-pointer text-black transition-all duration-500 hover:text-yellow-500 hover:opacity-[0.9] "
       > 
-        {item}
-      </motion.p>
+      <div className=" flex">
+        {item} <ChevronDown className=" mt-1 ml-1 inline"/>
+      </div>
+      </motion.div>
       {active !== null && (
         <motion.div
           initial={{ opacity: 0, scale: 0.85, y: 10 }}
@@ -43,7 +46,7 @@ export const MenuItem = ({
               <motion.div
                 transition={transition}
                 layoutId="active" // layoutId ensures smooth animation
-                className="bg-white  backdrop-blur-sm rounded-md overflow-hidden border border-black/[0.2] text-black shadow-xl"
+                className="bg-white border-t-0 z-50 backdrop-blur-sm rounded-md overflow-hidden border border-black/[0.2] text-black shadow-xl"
               >
                 <motion.div
                   layout // layout ensures smooth animation
@@ -116,7 +119,7 @@ export const HoveredLink = ({ children, ...rest }: any) => {
   return (
     <Link
       {...rest}
-      className="text-neutral-700 text-lg hover:text-yellow-500 transition-all duration-500 "
+      className="text-neutral-700 text-lg text-center px-6 hover:scale-110 hover:text-yellow-500 transition-all duration-500 "
     >
       {children}
     </Link>

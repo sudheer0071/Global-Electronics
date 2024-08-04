@@ -4,10 +4,15 @@ import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { cn } from "../lib/utils";
 import { Button } from "./Button";
 import Link from "next/link";
+import { EnquiryCard } from "./cards/EnquiryCard";
+import { useRecoilState } from "recoil";
+import { btnState } from "../recoilContextProvider";
 
 
 
 export default function Navbar() {
+ 
+
   return (
     <div className="relative w-full flex items-center justify-center">
       <NavbarCheck className="top-0 left-0 right-0 w-full" />
@@ -18,15 +23,22 @@ export default function Navbar() {
 function NavbarCheck({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   const [active2, setActive2] = useState<string | null>(null);
+  
+  const [showEnquiryCard, setShowEnquiryCard] = useRecoilState(btnState);
 
-  const companies = ["pro-face", "mitsubishi", "omron", "fanux", "delta", "hITECH", "sashkawa", "seyence", "sick", "sanacsonic", "intek/seinvi", "schneider", "siemens", "songfa"]
+  const toggleEnquiryCard = () => {
+    setShowEnquiryCard(!showEnquiryCard);
+  };
+
+
+  const companies =["pro-face", "mitsubishi", "omron", "fanux", "delta", "hITECH", "yashkawa", "keyence", "sick", "panacsonic", "intek/seinvi", "schneider", "siemens", "hongfa"]
 
   return (
     <div
       className={cn("fixed flex-none inset-x-11 mx-aukto w-full z-50", className)}
     >
       <div className="flex h-20">
-
+          
         <div className=" bg-white shadow-md flex "> 
           <div className=" p-1 px-5 cursor-pointer" >
             <Link href={"/"}>
@@ -36,7 +48,7 @@ function NavbarCheck({ className }: { className?: string }) {
 
           <div className=" cursor-pointer text-black text-2xl text-dcenter mt-4 fldex items-center w-[500px] font-medium">
          <Link href={"/"}>
-            Global Electronics Solution
+            Global Electronics Solutions
          </Link>
             <div className=" -mt-3">
               <small className=" text-xs">Global Electronic Solutions, Gurgaon, Gurugram, Haryana</small>
@@ -116,10 +128,12 @@ function NavbarCheck({ className }: { className?: string }) {
         </div>
         <div className=" relative -mt-2 w-full flex justify-end shadow-md bg-white">
           <div className=" ">
-            <Button nav={true} label={"Request a quote "} height={2} onclick={''} productCard={false} />
+            <Button nav={true} label={"Request a quote "} height={2} onclick={toggleEnquiryCard} productCard={false} />
           </div>
         </div>
       </div>
+      {showEnquiryCard && <EnquiryCard />}
+
     </div>
   );
 }

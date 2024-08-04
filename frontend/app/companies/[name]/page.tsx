@@ -5,11 +5,14 @@ import { NextPage } from 'next';
 import { useEffect, useState } from "react"; 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Loader } from "@progress/kendo-react-indicators";
+import axios from 'axios'
  
 const Company:NextPage = ()=>{
   // const [company, setCompany] = useState<string | string[] | undefined>();
   const router = useRouter()
-  const {name}  = useParams() 
+  const name  = useParams() 
+  const[company, setCompany] = useState<string|string[]>('')
  
     const Companies =   {
       companyName:"Mitsubishi",
@@ -39,20 +42,42 @@ const Company:NextPage = ()=>{
         },
       ]
     }   
-     
-  if (name!='mitsubishi') {
-    return <div> 
-      Loding...
+  
+    
+    const sendReq = async ()=>{
+      const res = await axios.post('')
+      setCompany(name.name) 
+    }
+    
+    useEffect(()=>{ 
+      
+      setTimeout(() => { 
+        console.log("company = "+company);
+      sendReq()
+      }, 2000);
+    },[])
+    
+
+
+    
+  if (company!='mitsubishi') {
+    return <div className=" text-black h-screen flex justify-center items-center bg-white"> 
+       <div className=" loader scale-150">
+ 
+       </div>
     </div>
   } 
-
   return <div>
+    <div>
+      
+    <Loader className=" z-50" type="infinite-spinner" />
+    </div>
     <TopCard label={Companies.companyName} />
       <div className=" bg-white pt-32 pb-20 m-auto ">
         <div className=" text-4xl text-black font-semibold flex justify-center">
           {Companies.header} 
         </div>
-        <div id="comp" className=" text-black py-12 mt-12 ">
+        <div id="comp" className=" textblack py-12 mt-12 ">
           <div className=" px-4 max-w-7xl w-full mx-auto">
           <div className=" flex">
           <div className=" z-0 hd"> 
@@ -72,7 +97,7 @@ const Company:NextPage = ()=>{
           We carry the following products from {Companies.companyName} but not limited to
           </div> 
           <div className=" mt-10 grid grid-cols-4"> 
-            {Companies.products.map((product,idx)=><Products name={name} key={idx} model={product.model} image={product.image} />) } 
+            {Companies.products.map((product,idx)=><Products name={JSON.stringify(name)} key={idx} model={product.model} image={product.image} />) } 
           </div>
         </div> 
       </div>

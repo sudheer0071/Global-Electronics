@@ -1,56 +1,185 @@
 import { X } from "lucide-react"
-import { Button } from "../Button"
-import { useState } from "react";
+import { Button } from "../ui/Button"
+import FileUpload from "../ui/FileUpload"
+
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { btnState } from "@/app/recoilContextProvider";
+import { enquiryState, quoteState } from "@/app/recoilContextProvider";
+import axios from "axios"; 
+import * as z from "zod"
+import { easeIn, motion } from "framer-motion";
+import {toast, Toaster } from "sonner";
 
-export const EnquiryCard = ()=>{
+interface ProcessedFile {
+  filename: string;
+  content: string;
+}
 
-  const [showEnquiryCard, setShowEnquiryCard] = useRecoilState(btnState);
+type EnquiryCardProp = {
+  quote?:boolean,
+  enquiry?:boolean
+}
 
+export const EnquiryCard = ({quote, enquiry}:EnquiryCardProp)=>{ 
+  const [enquireyBtn, setEnquiryBtn] = useRecoilState(enquiryState);
+  const [quoteBtn, setQuoteBtn] = useRecoilState(quoteState);
+
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [message, setMessage] = useState('')
+  const [phone, setPhone] = useState('')
+  const [product, setProduct] = useState('')
+  const [files, setFiles] =  useState<ProcessedFile[]>([]);
+ 
   const toggleEnquiryCard = () => {
-    setShowEnquiryCard(prevState => !prevState);
+    if (quote) {
+      setQuoteBtn(prevState => !prevState);
+    }
+    if (enquiry) {
+      setEnquiryBtn(prevState => !prevState);
+    }
   };
 
-  if (!showEnquiryCard) {
+  const onSubmitQuote = async () =>{ 
+
+    if (name==""||email==""||phone=="") {
+      toast.error(<div className=" font-semibold text-base ">
+          Please enter all the necessary feilds
+      </div>)
+    }
+else{
+  const res = await axios.post("/api/send", {
+   email, name, message, phone, files, isProduct:false
+  })
+  const msg = res.data
+  toast.success(<div className=" font-semibold text-base">
+     <div className=" font-semibold text-base">
+         
+            <div className=" ml-4">
+             {msg.message}
+          </div>
+          <div className=" ml-10">We will cotact you soon :)</div>
+        </div>
+
+  </div>)
+  console.log(msg);
+  setTimeout(() => {
+    setQuoteBtn(prevState => !prevState);  
+  }, 1500);  
+}
+  }
+
+  const onSubmitEnquire = async () =>{ 
+    
+    if (name==""||email==""||phone==""||product=="") {
+      toast.error(<div className=" font-semibold text-base">
+          Please enter all the necessary feilds
+      </div>)
+    }
+    else{
+      const res = await axios.post("/api/send", {
+       email, name, message, product , phone, files, isProduct:true
+      })
+      const msg = res.data
+      toast.success(<div className=" font-semibold text-base">
+        <div className=" font-semibold text-base">
+            
+               <div className=" ml-4">
+                {msg.message}
+             </div>
+             <div className=" ml-10">We will cotact you soon :)</div>
+           </div>
+   
+     </div>)
+      console.log(msg);  
+      setTimeout(() => {
+        setEnquiryBtn(prevState => !prevState);  
+      }, 1500);
+    }
+    }
+
+  const handleSubmit = ()=>{
+    if (enquireyBtn) {
+      onSubmitEnquire()
+    }
+    if (quoteBtn) {
+      onSubmitQuote()
+    }
+  }
+  
+  const handleFilesChange = (filesArray: { filename: string; content: string }[]) => { 
+    setFiles(filesArray) 
+  };
+
+  if (enquireyBtn&&quoteBtn) {
     return <div>
 
     </div>
   }
 
+  // else if (!enquireyBtn) {
+  //  return <div>
+
+  //  </div> 
+  // }
+
   return  <div className=" text-black h-screen flex fixed z-50 left-0 right-0 bottom-0 top-0 bg-[#3d3c3c7c]">
-  <div className=" flex-col flex m-auto max-w-2xl w-full py-10 bg-[#2f2c73] rounded-3xl shadow-md relative">
+  <motion.div 
+  initial = {{scale:0.5,x:quote?0:40, y:quote?-400:0, opacity:0}}
+  whileInView={{scale:1,x:0, y:0, opacity:1}}
+  transition={{ 
+   type:"just",
+   stiffness:200,
+   damping:7,
+   duration:0.5
+  }}   
+  className={`  flex-col flex m-auto max-w-2xl ${quote?' py-10':' py-6'} w-full bg-[#2f2c73] rounded-3xl shadow-md relative`}>
        <div className=" absolute right-0 top-0 font-bold flex justify-end p-3"> 
            <X className=" cursor-pointer hover:scale-125 transition-all duration-500" onClick={toggleEnquiryCard} color="white" size={35} />
        </div>
        <div className=" text-white text-center flex justify-center flex-col px-14">
+        <Toaster className=" bg-red-300" position="bottom-right"/>
           <div className=" text-4xl font-semibold ">
-           Request A Quoate
+            {enquiry?'Request for Enquiry':'Request A Quoate'}
+           
           </div>
-          <div className=" font-thin mt-4">
+          <div className={` font-thin `}>
           Our product expert is standing by to give 24/7 consultation.
           </div>
-          <div className="flex  gap-5 mt-9">
+          <div className={`flex  gap-5 ${quote?' mt-7':' mt-3'}`}>
                <div className=" flex flex-col w-full">
                 <label htmlFor="adsfasf" className=" text-left" >Name <div className=" inline text-yellow-500 text-xl">*</div>  </label>
-                <input placeholder="your name" type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+                <input onChange={(e)=> setName(e.target.value)} placeholder="your name" type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
                </div>
                <div className=" flex flex-col w-full">
                 <label htmlFor="adsfasf" className=" text-left">Phone <div className=" inline text-yellow-500 text-xl">*</div>  </label>
-                <input placeholder="Phone number" type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+                <input placeholder="Phone number" onChange={e=>setPhone(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
                </div> 
           </div>
-               <div className="text-left mt-7">
+               <div className={`text-left ${quote?' mt-7':' mt-3'}`}>
                  <label htmlFor="" className=" ">Email <div className=" inline text-yellow-500 text-xl">*</div> </label>
-                 <input placeholder="email" type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
-               </div> 
+                 <input placeholder="email" onChange={e=>setEmail(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+               </div>  
+               {enquiry? <div className={`text-left mt-4`}>
+                 <label htmlFor="" className=" ">Product Model <div className=" inline text-yellow-500 text-xl">*</div> </label>
+                 <input placeholder="ex - Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J" onChange={e=>setProduct(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+               </div> :''}
                
-               <div className="text-left mt-7">
+               <div className={`text-left ${quote?' mt-7':' mt-5'}`}>
                  <label htmlFor="" className=" ">Your Message </label>
-                 <textarea placeholder="your name" name="" id="" className=" text-black p-3 mt-3 w-full h-[100px] rounded-md " /> 
+                 <textarea placeholder="your name" onChange={e=>setMessage(e.target.value)} name="" id="" className=" text-black p-3 mt-3 w-full h-[100px] rounded-md " /> 
                </div>
-               <Button label={"Submit"} height={14} onclick={''} enquiry={true} />
+               <div className={`text-left ${quote?' mt-7':'mt-4'}`}>
+                
+                 <label htmlFor="" className=" ">If you have any reference upload here </label>
+                 <div className={` ${quote?' mt-7':' mt-2'}`}>
+                <FileUpload onFilesChange={handleFilesChange} />
+                 </div>
+               </div>
+               <div className={`${quote?' mt-8':' mt-3'}`}>
+               <Button label={"Submit"} height={14} onclick={handleSubmit} enquiry={true} />
+               </div>
        </div>
-  </div>
+  </motion.div>
 </div>
 }

@@ -2,8 +2,12 @@
 
 import React from 'react';
 import { RecoilRoot, atom} from 'recoil';  
-export const btnState = atom({
-  key:"btn",
+export const quoteState = atom({
+  key:"quoteBtn",
+  default:false  
+})
+export const enquiryState = atom({
+  key:"enquireyBtn",
   default:false  
 })
 

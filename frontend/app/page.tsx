@@ -11,8 +11,9 @@ import { Footer } from "./components/cards/Footer";
 import { Loader } from "@progress/kendo-react-indicators";
 import * as React from "react";
 import { Cross, Crosshair, DoorClosed, FolderClosed, X } from "lucide-react";
-import { Button } from "./components/Button";
+import { Button } from "./components/ui/Button";
 import { EnquiryCard } from "./components/cards/EnquiryCard";
+import { EmailTemplate } from "./components/EmailTemplate";
 export default function Home() {
   const [showEnquiryCard, setShowEnquiryCard] = React.useState(false);
 
@@ -28,13 +29,7 @@ export default function Home() {
       <Companies />
       <About />
       <Advantages />
-      <Footer />
-      <div className=" text-black">
-      <button onClick={toggleEnquiryCard}>
-        {showEnquiryCard ? 'Hide Enquiry Card' : 'Show Enquiry Card'}
-      </button>
-      </div>
-      {showEnquiryCard && <EnquiryCard />}
+      <Footer />  
     </div>
   );
 }

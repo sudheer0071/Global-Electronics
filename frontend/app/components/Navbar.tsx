@@ -2,17 +2,14 @@
 import React, { useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { cn } from "../lib/utils";
-import { Button } from "./Button";
+import { Button } from "./ui/Button";
 import Link from "next/link";
 import { EnquiryCard } from "./cards/EnquiryCard";
 import { useRecoilState } from "recoil";
-import { btnState } from "../recoilContextProvider";
-
-
-
-export default function Navbar() {
+import {  quoteState } from "../recoilContextProvider";
  
-
+export default function Navbar() {
+  
   return (
     <div className="relative w-full flex items-center justify-center">
       <NavbarCheck className="top-0 left-0 right-0 w-full" />
@@ -24,7 +21,7 @@ function NavbarCheck({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   const [active2, setActive2] = useState<string | null>(null);
   
-  const [showEnquiryCard, setShowEnquiryCard] = useRecoilState(btnState);
+  const [showEnquiryCard, setShowEnquiryCard] = useRecoilState(quoteState);
 
   const toggleEnquiryCard = () => {
     setShowEnquiryCard(!showEnquiryCard);
@@ -132,7 +129,7 @@ function NavbarCheck({ className }: { className?: string }) {
           </div>
         </div>
       </div>
-      {showEnquiryCard && <EnquiryCard />}
+      {showEnquiryCard && <EnquiryCard quote={true} />}
 
     </div>
   );

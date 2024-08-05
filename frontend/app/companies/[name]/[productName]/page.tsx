@@ -1,11 +1,14 @@
 "use client"
-
-import { Button } from "@/app/components/Button"
+ 
 import { ChevronsLeftIcon, ChevronsRightIcon, Minus, Plus } from "lucide-react"
 import { useState } from "react"
 import { motion } from 'framer-motion'
 import { useParams } from "next/navigation"
 import Link from "next/link"
+import { Button } from "@/app/components/ui/Button"
+import { useRecoilState } from "recoil"
+import { enquiryState } from "@/app/recoilContextProvider"
+import { EnquiryCard } from "@/app/components/cards/EnquiryCard"
 
 const Products = () => {
 
@@ -118,9 +121,18 @@ const Products = () => {
     },
   ]
 
+
+
   const [index, setIndex] = useState(0)
   const [miniIndex, setMiniIndex] = useState(0)
   const [relatedIndex, setRelatedIndex] = useState(0)
+  const [count, setCount] = useState(0)
+  
+  const [showEnquiryCard, setShowEnquiryCard] = useRecoilState(enquiryState);
+
+  const toggleEnquiryCard = () => {
+    setShowEnquiryCard(!showEnquiryCard);
+  };
 
 
   return <div className=" bg-white">
@@ -228,11 +240,11 @@ const Products = () => {
               </div>
 
               <div className=" text-xl font-semibold mt-20">
-                Qty: <Minus size={30} className="font-bold inline mx-4 rounded-full hover:bg-cyan-400 transition-all cursor-pointer duration-500" /> 1 <Plus size={30} className=" inline ml-4 font-bold hover:bg-cyan-400 rounded-full transition-all duration-500 cursor-pointer" />
+                Qty: <Minus onClick={()=>setCount(count-1)} size={30} className={` ${!count?' pointer-events-none text-slate-300 cursor-pointer':''} font-bold inline mx-4 rounded-full hover:bg-cyan-400 transition-all cursor-pointer duration-500`} /> {count} <Plus onClick={()=>setCount(count+1)}  size={30} className=" inline ml-4 font-bold hover:bg-cyan-400 rounded-full transition-all duration-500 cursor-pointer" />
               </div>
 
               <div className=" flex mt-5">
-                <Button onclick={''} height={2} label={"Add to Enquiry Cart"} productCard={false} />
+                <Button onclick={toggleEnquiryCard} height={2} label={"Add to Enquiry Cart"} productCard={false} />
               </div>
             </div>
           </div>
@@ -319,7 +331,7 @@ const Products = () => {
         </div>
       </div>
     </div>
-
+    {showEnquiryCard && <EnquiryCard enquiry={true} />}
   </div>
 }
 

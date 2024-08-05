@@ -42,8 +42,7 @@ const Company:NextPage = ()=>{
         },
       ]
     }   
-  
-    
+   
     const sendReq = async ()=>{
       const res = await axios.post('')
       setCompany(name.name) 
@@ -56,10 +55,7 @@ const Company:NextPage = ()=>{
       sendReq()
       }, 2000);
     },[])
-    
-
-
-    
+     
   if (company!='mitsubishi') {
     return <div className=" text-black h-screen flex justify-center items-center bg-white"> 
        <div className=" loader scale-150">
@@ -83,7 +79,7 @@ const Company:NextPage = ()=>{
           <div className=" z-0 hd"> 
             <img className="shadow-2xl ml-10" src={`https://www.plc-sensors.com/wp-content/uploads/${Companies.image}}`} alt="" /> 
           </div>
-          <div className=" ml-24 max-w-2xl font-light">
+          <div className=" ml-24 max-w-2xl font-light text-black">
             {Companies.about.map((about, idx)=><p className=" mt-8" key={idx}>{about}</p>)} 
           </div>
           </div>

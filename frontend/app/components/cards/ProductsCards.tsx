@@ -1,5 +1,5 @@
  import Image from "next/image"
-import { Button } from "../Button"
+import { Button } from "../ui/Button"
 import { ArrowBigDown, ExternalLink } from 'lucide-react'
 
 type productProps = {
@@ -24,6 +24,7 @@ export const ProducCards = ({heading, image, companies}:productProps)=>{
      </div>
   </div>
 }  
+
 function Companies({name}:{name:string}){
   return <div className=" mt-4 text-lg font-medium cursor-pointer hover:text-sky-700">
     <ExternalLink size={15} className=" inline"/>  {name}

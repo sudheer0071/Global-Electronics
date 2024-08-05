@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@progress/kendo-react-indicators": "^8.1.1",
+    "@types/recoil": "^0.0.9",
     "axios": "^1.7.3",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.21",
@@ -19,6 +20,8 @@
     "react": "^18",
     "react-dom": "^18",
     "recoil": "^0.7.7",
+    "resend": "^3.5.0",
+    "sonner": "^1.5.0",
     "tailwind-merge": "^2.4.0"
   },
   "devDependencies": {

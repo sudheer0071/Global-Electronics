@@ -22,8 +22,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <RecoilContextProvider>
-        <Navbar/>
         <div className=" mt-20">
+        <Navbar/>
         {children} 
         </div>
         </RecoilContextProvider>

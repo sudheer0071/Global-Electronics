@@ -5,11 +5,10 @@ import FileUpload from "../ui/FileUpload"
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { enquiryState, quoteState } from "@/app/recoilContextProvider";
-import axios from "axios"; 
-import * as z from "zod"
+import axios from "axios";  
 import { easeIn, motion } from "framer-motion";
 import {toast, Toaster } from "sonner";
-
+ 
 interface ProcessedFile {
   filename: string;
   content: string;
@@ -19,6 +18,8 @@ type EnquiryCardProp = {
   quote?:boolean,
   enquiry?:boolean
 }
+
+
 
 export const EnquiryCard = ({quote, enquiry}:EnquiryCardProp)=>{ 
   const [enquireyBtn, setEnquiryBtn] = useRecoilState(enquiryState);

@@ -4,7 +4,7 @@ import FileUpload from "../ui/FileUpload"
 
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { enquiryState, quoteState } from "@/app/recoilContextProvider";
+import { contactState, enquiryState, quoteState } from "@/app/recoilContextProvider";
 import axios from "axios";  
 import { easeIn, motion } from "framer-motion";
 import {toast, Toaster } from "sonner";
@@ -16,14 +16,20 @@ interface ProcessedFile {
 
 type EnquiryCardProp = {
   quote?:boolean,
-  enquiry?:boolean
+  enquiry?:boolean,
+  contact?:boolean
 }
 
+interface ResponseData {
+  message: string;
+}
 
-
-export const EnquiryCard = ({quote, enquiry}:EnquiryCardProp)=>{ 
+ 
+export const EnquiryCard = ({quote, enquiry, contact}:EnquiryCardProp)=>{ 
   const [enquireyBtn, setEnquiryBtn] = useRecoilState(enquiryState);
   const [quoteBtn, setQuoteBtn] = useRecoilState(quoteState);
+  const [contactBtn, setContactBtn] = useRecoilState(contactState);
+
 
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
@@ -39,65 +45,81 @@ export const EnquiryCard = ({quote, enquiry}:EnquiryCardProp)=>{
     if (enquiry) {
       setEnquiryBtn(prevState => !prevState);
     }
+    if (contact) {
+      setContactBtn(prevState => !prevState);
+    }
   };
 
   const onSubmitQuote = async () =>{ 
 
     if (name==""||email==""||phone=="") {
-      toast.error(<div className=" font-semibold text-base ">
-          Please enter all the necessary feilds
-      </div>)
+      toast.warning( 
+          "Please enter all the necessary feilds"
+     )
     }
 else{
+ 
+  try{  
+    toast.loading("sending mail....")
   const res = await axios.post("/api/send", {
-   email, name, message, phone, files, isProduct:false
+    email, name, message, phone, files, isProduct:false
   })
-  const msg = res.data
-  toast.success(<div className=" font-semibold text-base">
-     <div className=" font-semibold text-base">
-         
-            <div className=" ml-4">
-             {msg.message}
-          </div>
-          <div className=" ml-10">We will cotact you soon :)</div>
-        </div>
-
-  </div>)
+  const msg = res.data 
+  toast.success(msg.message)
   console.log(msg);
   setTimeout(() => {
     setQuoteBtn(prevState => !prevState);  
-  }, 1500);  
+  }, 1500);   
 }
+ catch (error) {
+  toast.error('Error sending mail please try again in some time');
+} 
   }
-
+  }
   const onSubmitEnquire = async () =>{ 
     
     if (name==""||email==""||phone==""||product=="") {
-      toast.error(<div className=" font-semibold text-base">
-          Please enter all the necessary feilds
-      </div>)
+      toast.warning( 
+        "Please enter all the necessary feilds"
+   )
     }
     else{
+      toast.loading("Sending mail...")
       const res = await axios.post("/api/send", {
        email, name, message, product , phone, files, isProduct:true
       })
       const msg = res.data
-      toast.success(<div className=" font-semibold text-base">
-        <div className=" font-semibold text-base">
-            
-               <div className=" ml-4">
-                {msg.message}
-             </div>
-             <div className=" ml-10">We will cotact you soon :)</div>
-           </div>
-   
-     </div>)
+      toast.success(msg.message)
       console.log(msg);  
       setTimeout(() => {
         setEnquiryBtn(prevState => !prevState);  
       }, 1500);
     }
     }
+
+    
+  const onSubmitContact = async () =>{ 
+    
+    if (name==""||email==""||phone==""||product=="") {
+      toast.warning( 
+        "Please enter all the necessary feilds"
+   )
+    }
+    else{
+      toast.loading("Sending mail...")
+      const res = await axios.post("/api/send", {
+       email, name, message , phone, files, isProduct:false
+      })
+      const msg = res.data
+      toast.success(msg.message)
+      console.log(msg);  
+      setTimeout(() => {
+        setContactBtn(prevState => !prevState);  
+      }, 1500);
+    }
+    }
+
+
 
   const handleSubmit = ()=>{
     if (enquireyBtn) {
@@ -106,13 +128,16 @@ else{
     if (quoteBtn) {
       onSubmitQuote()
     }
+    if (contactBtn) {
+      onSubmitContact()
+    }
   }
   
   const handleFilesChange = (filesArray: { filename: string; content: string }[]) => { 
     setFiles(filesArray) 
   };
 
-  if (enquireyBtn&&quoteBtn) {
+  if (enquireyBtn&&quoteBtn&&contactBtn) {
     return <div>
 
     </div>
@@ -139,9 +164,9 @@ else{
            <X className=" cursor-pointer hover:scale-125 transition-all duration-500" onClick={toggleEnquiryCard} color="white" size={35} />
        </div>
        <div className=" text-white text-center flex justify-center flex-col px-14">
-        <Toaster className=" bg-red-300" position="bottom-right"/>
+        <Toaster richColors className=" bg-red-300" position="bottom-right"/>
           <div className=" text-4xl font-semibold ">
-            {enquiry?'Request for Enquiry':'Request A Quoate'}
+            {enquiry?'Request for Enquiry':quote?'Request A Quoate':"Contact Us"} 
            
           </div>
           <div className={` font-thin `}>
@@ -163,7 +188,7 @@ else{
                </div>  
                {enquiry? <div className={`text-left mt-4`}>
                  <label htmlFor="" className=" ">Product Model <div className=" inline text-yellow-500 text-xl">*</div> </label>
-                 <input placeholder="ex - Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J" onChange={e=>setProduct(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+                 <input placeholder="eg - Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J" onChange={e=>setProduct(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
                </div> :''}
                
                <div className={`text-left ${quote?' mt-7':' mt-5'}`}>
@@ -172,7 +197,7 @@ else{
                </div>
                <div className={`text-left ${quote?' mt-7':'mt-4'}`}>
                 
-                 <label htmlFor="" className=" ">If you have any reference upload here </label>
+                 <label htmlFor="" className=" ">If you have any reference, please upload images or files here </label>
                  <div className={` ${quote?' mt-7':' mt-2'}`}>
                 <FileUpload onFilesChange={handleFilesChange} />
                  </div>

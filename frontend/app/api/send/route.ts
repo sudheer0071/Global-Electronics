@@ -31,7 +31,7 @@ console.log(body.isProduct);
   try {
     const { data, error } = await resend.emails.send({
       from: 'services@sudheer.tech',
-      to: ['sam7655677280@gmail.com'],
+      to: ['sudheer1614@gmail.com'],
       subject: 'testing email 📨',
       react: EmailTemplate({ firstName:body.name, product:body.product , email:body.email, phone:body.phone, message:body.message, isProduct:body.isProduct}),
       attachments: body.files?.map((file:any)=>({

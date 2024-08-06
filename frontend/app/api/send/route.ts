@@ -30,7 +30,7 @@ console.log(body.isProduct);
 
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Acme <fs@resend.dev>',
+      from: 'services@sudheer.tech',
       to: ['sam7655677280@gmail.com'],
       subject: 'testing email 📨',
       react: EmailTemplate({ firstName:body.name, product:body.product , email:body.email, phone:body.phone, message:body.message, isProduct:body.isProduct}),

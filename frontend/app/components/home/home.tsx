@@ -12,7 +12,7 @@ export default function Main() {
     setContactBtn(!contactBtn);
   };
 
-
+ 
   return <div className={` banner flex h-screen items-center`}>
     {/* <Image  quality="100"
          className=" opacity-30" layout="fill" alt="" src={'/fan.jpg'}/> */}

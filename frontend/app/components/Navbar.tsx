@@ -131,7 +131,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
     if (item.product.length>=1) { 
 
       console.log(item.product.length);
-      return <div>
+      return <div key={idx2}>
          <Link onClick={()=>setSearchTerm('')} href={`/companies/${companyName}/${item.product[idx2][1]}`} key={idx2} >
     <div className=" hover:bg-slate-100 p-2 hover:scale-105 hover:text-slate-800 transition-all duration-500 cursor-pointer mt-2 border-b-2 "> {companyName}, {item.product[idx2]}  </div> 
      </Link>

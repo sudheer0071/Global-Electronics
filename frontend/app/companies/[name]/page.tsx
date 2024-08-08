@@ -7,12 +7,26 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader } from "@progress/kendo-react-indicators";
 import axios from 'axios'
+import { BACKEND_URL } from "@/app/config";
  
 const Company:NextPage = ()=>{
   // const [company, setCompany] = useState<string | string[] | undefined>();
   const router = useRouter()
   const name  = useParams() 
   const[company, setCompany] = useState<string|string[]>('')
+  const [loading, setLoading] = useState(false)
+  const [companies, setCompanies] = useState({
+    name:'',
+    image:'',
+    header:'',
+    about:['',' ',' '],
+    products:[
+      {
+        model:'',
+        image:'',
+      }
+    ]
+  })
  
     const Companies =   {
       companyName:"Mitsubishi",
@@ -33,7 +47,7 @@ const Company:NextPage = ()=>{
           image: "2021/02/Mitsubishi-servo-drive-2.jpg"
         },
         {
-          model:"Mitsubishi HMI",
+          model:"Mitsubishi 109P0424H302",
           image:"2021/02/Mitsubishi-HMI-1.jpg"
         },
         {
@@ -42,21 +56,35 @@ const Company:NextPage = ()=>{
         },
       ]
     }   
-   
-    const sendReq = async ()=>{
-      const res = await axios.post('')
+  console.log(name.name);
+  
+
+    const sendReq = async () => {
+      try{
+        setLoading(true);
+        const res = await axios.get(`${BACKEND_URL}/companies/${name.name}`)
+        const response = res.data
+        console.log("inside the send req");
+        setLoading(false)
       setCompany(name.name) 
+      console.log(response);
+      setCompanies(response)
     }
-    
+    catch(e){
+      console.log("this company is not in database");
+      console.log(e); 
+    }
+    }
+  
     useEffect(()=>{ 
       
       setTimeout(() => { 
         console.log("company = "+company);
-      sendReq()
+      sendReq() 
       }, 2000);
     },[])
      
-  if (company!='mitsubishi') {
+  if (company!='Mitsubishi') {
     return <div className=" text-black h-screen flex justify-center items-center bg-white"> 
        <div className=" loader scale-150">
  
@@ -103,7 +131,7 @@ const Company:NextPage = ()=>{
 
 const Products = ({name,model, image}:{name:string, model:string, image:string})=>{
   return <div>
-      <Link href={`/companies/${name}/${encodeURIComponent(model)}`}> 
+      <Link href={`/companies/${name}/${encodeURIComponent(model.split(' ')[1])}`}> 
 
     <div className=" ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
         <img className=" rounded-lg hover:shadow-2xl transition-all duration-500" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />

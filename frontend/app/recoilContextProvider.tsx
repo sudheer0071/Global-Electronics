@@ -16,6 +16,12 @@ export const contactState = atom({
   default:false  
 })
 
+
+export const sendEnquiryState = atom({
+  key:"sendEnquiryBtn",
+  default:false  
+})
+
 export default function RecoilContextProvider({ children }:any){
   return <RecoilRoot>{children}</RecoilRoot>
 }

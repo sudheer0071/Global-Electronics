@@ -4,7 +4,7 @@ import FileUpload from "../ui/FileUpload"
 
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { contactState, enquiryState, quoteState } from "@/app/recoilContextProvider";
+import { contactState, enquiryState, quoteState, sendEnquiryState } from "@/app/recoilContextProvider";
 import axios from "axios";  
 import { easeIn, motion } from "framer-motion";
 import {toast, Toaster } from "sonner";
@@ -17,7 +17,8 @@ interface ProcessedFile {
 type EnquiryCardProp = {
   quote?:boolean,
   enquiry?:boolean,
-  contact?:boolean
+  contact?:boolean,
+  sendEnq?:boolean
 }
 
 interface ResponseData {
@@ -25,10 +26,12 @@ interface ResponseData {
 }
 
  
-export const EnquiryCard = ({quote, enquiry, contact}:EnquiryCardProp)=>{ 
+export const EnquiryCard = ({quote, enquiry, contact, sendEnq}:EnquiryCardProp)=>{ 
   const [enquireyBtn, setEnquiryBtn] = useRecoilState(enquiryState);
   const [quoteBtn, setQuoteBtn] = useRecoilState(quoteState);
-  const [contactBtn, setContactBtn] = useRecoilState(contactState);
+  const [contactBtn, setContactBtn] = useRecoilState(contactState); 
+  const [sendEnquiry, setSendEnquiry] = useRecoilState(sendEnquiryState)
+
 
 
   const [email, setEmail] = useState('')
@@ -43,10 +46,13 @@ export const EnquiryCard = ({quote, enquiry, contact}:EnquiryCardProp)=>{
       setQuoteBtn(prevState => !prevState);
     }
     if (enquiry) {
-      setEnquiryBtn(prevState => !prevState);
+      setEnquiryBtn(prevState => !prevState); 
     }
     if (contact) {
       setContactBtn(prevState => !prevState);
+    }
+    if (sendEnq) {
+      setSendEnquiry(prevState => !prevState);
     }
   };
 
@@ -93,6 +99,8 @@ else{
       console.log(msg);  
       setTimeout(() => {
         setEnquiryBtn(prevState => !prevState);  
+      setSendEnquiry(prevState => !prevState);
+
       }, 1500);
     }
     }
@@ -120,9 +128,8 @@ else{
     }
 
 
-
   const handleSubmit = ()=>{
-    if (enquireyBtn) {
+    if (enquireyBtn||sendEnquiry) {
       onSubmitEnquire()
     }
     if (quoteBtn) {
@@ -166,7 +173,7 @@ else{
        <div className=" text-white text-center flex justify-center flex-col px-14">
         <Toaster richColors className=" bg-red-300" position="bottom-right"/>
           <div className=" text-4xl font-semibold ">
-            {enquiry?'Request for Enquiry':quote?'Request A Quoate':"Contact Us"} 
+            {enquiry||sendEnq?'Request for Enquiry':quote?'Request A Quoate':"Contact Us"} 
            
           </div>
           <div className={` font-thin `}>
@@ -186,7 +193,7 @@ else{
                  <label htmlFor="" className=" ">Email <div className=" inline text-yellow-500 text-xl">*</div> </label>
                  <input placeholder="email" onChange={e=>setEmail(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
                </div>  
-               {enquiry? <div className={`text-left mt-4`}>
+               {enquiry||sendEnq? <div className={`text-left mt-4`}>
                  <label htmlFor="" className=" ">Product Model <div className=" inline text-yellow-500 text-xl">*</div> </label>
                  <input placeholder="eg - Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J" onChange={e=>setProduct(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
                </div> :''}

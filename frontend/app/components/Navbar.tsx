@@ -1,16 +1,17 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { act, useRef, useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { cn } from "../lib/utils";
 import { Button } from "./ui/Button";
 import Link from "next/link";
 import { EnquiryCard } from "./cards/EnquiryCard";
 import { useRecoilState } from "recoil";
-import {  quoteState, sendEnquiryState } from "../recoilContextProvider";
+import {  quoteState, sendEnquiryState, showSearchState } from "../recoilContextProvider";
 import { Search } from "lucide-react";
 import { countries } from "./sample";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { Loader } from "./Loader";
  
 export default function Navbar() {
   
@@ -26,8 +27,9 @@ function NavbarCheck({ className }: { className?: string }) {
   const [active2, setActive2] = useState<string | null>(null);
   const [showEnquiryCard, setShowEnquiryCard] = useRecoilState(quoteState);
   const [sendEnquiry, setSendEnquiry] = useRecoilState(sendEnquiryState)
-  const[start,setStart] = useState(false)
-  
+  const[start,setStart] = useState(false) 
+  const [showSearch, setShowSearch] = useRecoilState(showSearchState)
+
   const[searchTerm, setSearchTerm] = useState('')
   const[searchResult, setSearchResult] = useState<[{company:string [], product:string[]}]>([
     {
@@ -37,7 +39,7 @@ function NavbarCheck({ className }: { className?: string }) {
   ])
   const debounceTimeout = useRef<any>(null)
 
-  const DELAY = 100
+  const DELAY = 2000
 
 
 // Search Filteration
@@ -74,33 +76,16 @@ const getSearched = async (value:string)=>{
     setSearchResult([{company:[''], product:[]}])
     return;
   }
-   const res  = await axios.get(`${BACKEND_URL}/products/search/?query=${value}`)
-  //  const response:string[] = await res.data.details.map((namee:any)=> namee.value)
-  //  const result:string[] = await response.filter((nameee)=> nameee.toLocaleUpperCase().includes(value.toLocaleUpperCase())) 
-  //  setSearchResult(result) 
+   const res  = await axios.get(`${BACKEND_URL}/products/search/?query=${value}`) 
   const result = res.data.map(({ details }:any) => details);
   const companies = res.data.map(({ manufacturer }:any)=>manufacturer);
   const company = companies.map((mfg:any)=>mfg.company_name);
   const filteredRes = result.map((name:string[]|any)=>name.map((nme:any)=>nme.value))
-//   const filteredRes = result.map((item:any) => {
-//     if (Array.isArray(item)) {
-//         return item.map(({ name }) => name);
-//     } else if (item.value) {
-//         return item.value;
-//     } else {
-//         return item;
-//     }
-// });
-
-  // const filteredRes = result.map((item:{item:[{name:string}]}) => Array.isArray(item) ? item.map(({ name }) => name) : (item.name || item)); 
-  
+ 
   console.log(res.data);
   console.log(result);
   console.log(company);
-  console.log(filteredRes);
-  const clickedProduct = filteredRes[0][1]
-  console.log(clickedProduct);
-  
+  console.log(filteredRes); 
  setSearchResult([{company:company, product:filteredRes}])
 }
 
@@ -116,20 +101,20 @@ function debounce (func:any, delay:number){
   }
 }
 
+
 // Debounce  Search function
 const debounceSearch =(value:string)=> debounce(getSearched(value),DELAY)
 
 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
   const { value } = e.target
   setSearchTerm(value)
+  setShowSearch(true)
   setStart(true)
 //  getData(value)
   debounceSearch(value)
 }
  
-
-
-
+ 
   const toggleEnquiryCard = () => {
     setShowEnquiryCard(!showEnquiryCard); 
   };
@@ -142,14 +127,17 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
   const searchResultList = searchResult.slice(0, 7).map((item, idx:number) => 
     <div className="" key={idx}>
   {item.company.map((companyName: string, idx2:number ) =>{
-  // console.log(item.product[idx2][1]);
   
-  return (
-    <Link href={`/companies/${companyName}/${item.product[idx2][1]}`} key={idx2} >
+    if (item.product.length>=1) { 
+
+      console.log(item.product.length);
+      return <div>
+         <Link onClick={()=>setSearchTerm('')} href={`/companies/${companyName}/${item.product[idx2][1]}`} key={idx2} >
     <div className=" hover:bg-slate-100 p-2 hover:scale-105 hover:text-slate-800 transition-all duration-500 cursor-pointer mt-2 border-b-2 "> {companyName}, {item.product[idx2]}  </div> 
      </Link>
-  )})}
-</div>
+      </div>
+    }})}
+  </div>
   );
   
 const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH", "yashkawa", "keyence", "sick", "panacsonic", "intek/seinvi", "schneider", "siemens", "hongfa"]
@@ -188,11 +176,11 @@ const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH",
               </div>
             </MenuItem>
             <MenuItem setActive={setActive} active={active} item={"Companies"}>
-              <div onClick={()=>{}} className="flex flex-col space-y-4 text-sm">
+              <div onClick={()=>{}} className=" flex flex-col space-y-4 text-sm">
                 {companies.map((company, idx) => {
                   const formattedCompany = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
                   return (
-                    <HoveredLink key={idx} href={`/companies/${company}`}>
+                    <HoveredLink onClick={()=>setActive('')} key={idx} href={`/companies/${company}`}>
                       {formattedCompany}
                     </HoveredLink>
                   );
@@ -203,7 +191,7 @@ const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH",
             <MenuItem setActive={setActive} active={active} item="About">
               <div className="flex flex-col space-y-4 text-sm">
                 <HoveredLink href="/hobby">Hobby
-
+ 
                 </HoveredLink>
                 <HoveredLink href="/individual">Individual</HoveredLink>
                 <HoveredLink href="/team">Team</HoveredLink>
@@ -219,12 +207,14 @@ const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH",
     className="border shadow-md shadow-gray-400 p-3 w-80 rounded-md bg-slate-100 text-black font-medium text-md pl-5" 
     placeholder="Enter Product Number" 
     type="text" 
+    value={searchTerm}
     onChange={handleInputChange}
   /> 
   <Search 
     className="absolute right-2 top-6 transform -translate-y-1/2 text-gray-400"
   /> 
-{{ searchResultEmpty } && (
+  <div className={`${showSearch}hdidden w-full`}>
+{{ searchResultEmpty } && showSearch && (
   <div className={` ${!start?' hidden':''} w-full bg-white pt-3 rounded-b-lg border-gray-400 text-black font-medium `}>
   <ul className="text-left  border-2 text-md">
     {searchResultList.map((res:any, idx:number)=><div key={idx} className=" border-t p-2 text-gray-500  translate-all duration-500 ">
@@ -233,12 +223,16 @@ const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH",
   </ul>
   </div>
 )}
-{searchResultEmpty && 
+
+ {  debounceTimeout.current && <div>
+ <Loader /> loading
+ </div>}
+{searchResultEmpty && showSearch &&
   searchTerm.length>0 && 
   !debounceTimeout.current && (
-    <div className=" w-full shadow-md border-2 rounded-b-lg flex justify-center items-center bg-white">
+    <div className=" w-full shadow-lg border-2 rounded-b-lg flex justify-center items-center bg-white">
       <div className="h-80 p-3 text-lg text-center items-center flex  ">
-      <div className=" h-6c4">No result found
+      <div className=" ">No result found
         <div className="">
       <Button sendEnq={true} onclick={()=>toggleSendEnquiryCard()} height={2} label={"Send an Enquiry"} productCard={false} /> 
         </div>
@@ -246,11 +240,11 @@ const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH",
       </div>
     </div>
   )
-}
-  <div></div>
+} 
+  </div>
 </div>
 
-          <div className=" -mt-1">
+          <div className=" -mt-1 -ml-3">
             <Button quote={true} nav={true} label={"Request a quote "} height={2} onclick={toggleEnquiryCard} productCard={false} />
           </div>
         </div>

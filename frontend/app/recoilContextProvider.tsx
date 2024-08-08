@@ -22,6 +22,10 @@ export const sendEnquiryState = atom({
   default:false  
 })
 
+export const showSearchState  = atom({
+  key:"showSearch",
+  default:false
+})
 export default function RecoilContextProvider({ children }:any){
   return <RecoilRoot>{children}</RecoilRoot>
 }

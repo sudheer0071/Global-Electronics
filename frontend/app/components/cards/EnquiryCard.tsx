@@ -4,7 +4,7 @@ import FileUpload from "../ui/FileUpload"
 
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { contactState, enquiryState, quoteState, sendEnquiryState } from "@/app/recoilContextProvider";
+import { contactState, enquiryState, quoteState, sendEnquiryState, showSearchState } from "@/app/recoilContextProvider";
 import axios from "axios";  
 import { easeIn, motion } from "framer-motion";
 import {toast, Toaster } from "sonner";
@@ -18,7 +18,9 @@ type EnquiryCardProp = {
   quote?:boolean,
   enquiry?:boolean,
   contact?:boolean,
-  sendEnq?:boolean
+  sendEnq?:boolean,
+  productName?:string,
+  quantity?:number,
 }
 
 interface ResponseData {
@@ -26,10 +28,11 @@ interface ResponseData {
 }
 
  
-export const EnquiryCard = ({quote, enquiry, contact, sendEnq}:EnquiryCardProp)=>{ 
+export const EnquiryCard = ({quote, enquiry, contact, sendEnq, productName, quantity}:EnquiryCardProp)=>{ 
   const [enquireyBtn, setEnquiryBtn] = useRecoilState(enquiryState);
   const [quoteBtn, setQuoteBtn] = useRecoilState(quoteState);
   const [contactBtn, setContactBtn] = useRecoilState(contactState); 
+
   const [sendEnquiry, setSendEnquiry] = useRecoilState(sendEnquiryState)
 
 
@@ -40,7 +43,9 @@ export const EnquiryCard = ({quote, enquiry, contact, sendEnq}:EnquiryCardProp)=
   const [phone, setPhone] = useState('')
   const [product, setProduct] = useState('')
   const [files, setFiles] =  useState<ProcessedFile[]>([]);
+  const [showSearch, setShowSearch] = useRecoilState(showSearchState)
  
+
   const toggleEnquiryCard = () => {
     if (quote) {
       setQuoteBtn(prevState => !prevState);
@@ -58,7 +63,7 @@ export const EnquiryCard = ({quote, enquiry, contact, sendEnq}:EnquiryCardProp)=
 
   const onSubmitQuote = async () =>{ 
 
-    if (name==""||email==""||phone=="") {
+    if (name=="" ||phone=="") {
       toast.warning( 
           "Please enter all the necessary feilds"
      )
@@ -84,7 +89,7 @@ else{
   }
   const onSubmitEnquire = async () =>{ 
     
-    if (name==""||email==""||phone==""||product=="") {
+    if (name=="" ||phone==""||product=="") {
       toast.warning( 
         "Please enter all the necessary feilds"
    )
@@ -97,10 +102,11 @@ else{
       const msg = res.data
       toast.success(msg.message)
       console.log(msg);  
+      setShowSearch(false) 
       setTimeout(() => {
-        setEnquiryBtn(prevState => !prevState);  
-      setSendEnquiry(prevState => !prevState);
-
+        if(sendEnq) setSendEnquiry(prevState => !prevState);
+        else setEnquiryBtn(prevState => !prevState);  
+     
       }, 1500);
     }
     }
@@ -190,17 +196,24 @@ else{
                </div> 
           </div>
                <div className={`text-left ${quote?' mt-7':' mt-3'}`}>
-                 <label htmlFor="" className=" ">Email <div className=" inline text-yellow-500 text-xl">*</div> </label>
-                 <input placeholder="email" onChange={e=>setEmail(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+                 <label htmlFor="" className=" ">Email <div className=" inline text-yellow-500 text-xl"></div> </label>
+                 <input placeholder="example@gmail.com" onChange={e=>setEmail(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
                </div>  
                {enquiry||sendEnq? <div className={`text-left mt-4`}>
-                 <label htmlFor="" className=" ">Product Model <div className=" inline text-yellow-500 text-xl">*</div> </label>
-                 <input placeholder="eg - Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J" onChange={e=>setProduct(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+                 <label htmlFor="" className=" flex justify-between">
+                  <div>
+                  Product Model <div className=" inline text-yellow-500 text-xl">*</div> 
+                  </div>
+                  <div className={` ${!productName?'hidden':''} bg-sky-300 rounded-md  p-2 text-black`}>
+                    Quantity: {quantity}
+                  </div>
+                    </label>
+                 <input value={productName?productName:product} placeholder="eg - Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J" onChange={e=>{productName?setProduct(productName):setProduct(e.target.value)}} type="text" name="" id="" className={`${productName?' text-slate-600 cursor-not-allowed':''} text-black p-3 mt-3 w-full h-12 rounded-md `} /> 
                </div> :''}
                
                <div className={`text-left ${quote?' mt-7':' mt-5'}`}>
                  <label htmlFor="" className=" ">Your Message </label>
-                 <textarea placeholder="your name" onChange={e=>setMessage(e.target.value)} name="" id="" className=" text-black p-3 mt-3 w-full h-[100px] rounded-md " /> 
+                 <textarea placeholder="Any extra detail you want to share?" onChange={e=>setMessage(e.target.value)} name="" id="" className=" text-black p-3 mt-3 w-full h-[100px] rounded-md " /> 
                </div>
                <div className={`text-left ${quote?' mt-7':'mt-4'}`}>
                 

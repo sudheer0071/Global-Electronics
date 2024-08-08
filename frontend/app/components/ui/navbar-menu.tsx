@@ -116,7 +116,8 @@ export const ProductItem = ({
 
 export const HoveredLink = ({ children, ...rest }: any) => {
   return (
-    <Link
+    <Link 
+       
       {...rest}
       className="text-neutral-700 text-lg text-center px-6 hover:scale-110 hover:text-yellow-500 transition-all duration-500 "
     >

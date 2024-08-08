@@ -7,10 +7,11 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/app/components/ui/Button"
 import { useRecoilState } from "recoil"
-import { enquiryState } from "@/app/recoilContextProvider"
+import { enquiryState, showSearchState } from "@/app/recoilContextProvider"
 import { EnquiryCard } from "@/app/components/cards/EnquiryCard"
 import axios from "axios"
 import { BACKEND_URL, R2 } from "@/app/config"
+import { Loader } from "@/app/components/Loader"
 
 const Products = () => {
 
@@ -125,9 +126,12 @@ console.log(productName);
 
   const [index, setIndex] = useState(0)
   const [miniIndex, setMiniIndex] = useState(0)
-  const [relatedIndex, setRelatedIndex] = useState(0)
-  const [count, setCount] = useState(0) 
+  const [relatedIndex, setRelatedIndex] = useState(0) 
   const [loading, setLoading] = useState(false)
+  const [showSearch, setShowSearch] = useRecoilState(showSearchState)
+  const[quantity, setQuantity] = useState(0);
+
+  const[prodName, setProdName] = useState(' Mitsubishi MELSERVO-J4 Servomotor With Break 750W HG-KR73BJ')
 
   const [products, setProducts] = useState({
     product: {
@@ -165,16 +169,16 @@ console.log(productName);
 
 
   useEffect(() => {
+    setShowSearch(false)
     sendReq();
     setTimeout(() => {
     }, 2000);
   }, []);
 
   if (loading) {
-    return  <div className=" text-black h-screen flex justify-center items-center bg-white"> 
-    <div className=" loader scale-150"> 
+    return <div className="">
+      <Loader/>
     </div>
- </div>
   }
 
   return <div className=" bg-white">
@@ -297,11 +301,11 @@ console.log(productName);
               </div>
 
               <div className=" text-xl font-semibold mt-20">
-                Qty: <Minus onClick={() => setCount(count - 1)} size={30} className={` ${!count ? ' pointer-events-none text-slate-300 cursor-pointer' : ''} font-bold inline mx-4 rounded-full hover:bg-cyan-400 transition-all cursor-pointer duration-500`} /> {count} <Plus onClick={() => setCount(count + 1)} size={30} className=" inline ml-4 font-bold hover:bg-cyan-400 rounded-full transition-all duration-500 cursor-pointer" />
+                Qty: <Minus onClick={() => setQuantity(quantity - 1)} size={30} className={` ${!quantity ? ' pointer-events-none text-slate-300 cursor-pointer' : ''} font-bold inline mx-4 rounded-full hover:bg-cyan-400 transition-all cursor-pointer duration-500`} /> {quantity} <Plus onClick={() => setQuantity(quantity + 1)} size={30} className=" inline ml-4 font-bold hover:bg-cyan-400 rounded-full transition-all duration-500 cursor-pointer" />
               </div>
 
               <div className=" flex mt-5">
-                <Button onclick={toggleEnquiryCard} height={2} label={"Add to Enquiry Cart"} productCard={false} />
+                <Button blur={!quantity?true:false} onclick={toggleEnquiryCard} height={2} label={"Add to Enquiry Cart"} productCard={false} />
               </div>
             </div>
           </div>
@@ -315,7 +319,7 @@ console.log(productName);
             <div className=" text-4xl font-semibold mt-9">
               Specifications
             </div>
-            <div className="  ">
+            <div className="">
               <Button onclick={''} height={3} download={true} label={"Download A Manual"} />
             </div>
           </div>
@@ -388,7 +392,7 @@ console.log(productName);
         </div>
       </div>
     </div>
-    {showEnquiryCard && <EnquiryCard enquiry={true} />}
+    {showEnquiryCard && <EnquiryCard quantity={quantity} productName={prodName} enquiry={true} />}
   </div>
 }
 
@@ -416,7 +420,7 @@ const Specifications = ({ name, value, num }: { name: string, value: string, num
 
 const Service = ({ image, head, num }: { num: number, image: string, head: string }) => {
   return <div>
-    <div className={`${num == 0 ? 'ml-60' : ' px-6'} ${num == 1 ? ' ml-4' : ''} ${num == 2 || num == 3 ? ' m-6' : ''} ${num == 2 ? ' ml-9' : ''} p-6 bg-white max-w-80  hover:shadow-2xl px-10 transition-all rounded-lg duration-500`}>
+    <div className={`${num == 0 ? 'ml-60' : ' px-6'} ${num == 1 ? ' ml-4' : ''} ${num == 2 || num == 3 ? ' m-6' : ''} ${num == 2 ? ' ml-9' : ''} shadow-lg p-6 bg-white max-w-80  hover:shadow-2xl px-10 transition-all rounded-lg duration-500`}>
       <div className=" flex justify-center">
         <img width={100} src={`https://www.plc-sensors.com/wp-content/themes/mml-theme/dist/img/p02-1-1-1/s03-${image}`} alt="" />
       </div>
@@ -428,7 +432,7 @@ const Service = ({ image, head, num }: { num: number, image: string, head: strin
 }
 
 const RelatedProducts = ({ company, image, name }: { company: string, image: string, name: string }) => {
-  return <div className=" shrink-0 transition-all duration-500 hover:text-blue-500  hover:scale-110 hover:shadow-2xl">
+  return <div className=" shadow-lg shrink-0 transition-all duration-500 hover:text-blue-500  hover:scale-110 hover:shadow-2xl">
     <Link href={`/companies/${company}/${encodeURIComponent(name)}`}>
       <div className=" flex justify-center items-center">
         <img

@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import { useEffect, useState } from "react"; 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Loader } from "@progress/kendo-react-indicators";
+import { Loader } from "../../components/Loader";
 import axios from 'axios'
 import { BACKEND_URL } from "@/app/config";
  
@@ -85,16 +85,12 @@ const Company:NextPage = ()=>{
     },[])
      
   if (company!='Mitsubishi') {
-    return <div className=" text-black h-screen flex justify-center items-center bg-white"> 
-       <div className=" loader scale-150">
- 
-       </div>
-    </div>
+    return <div className=" ">
+    <Loader/>
+  </div>
   } 
   return <div>
-    <div>
-      
-    <Loader className=" z-50" type="infinite-spinner" />
+    <div> 
     </div>
     <TopCard label={Companies.companyName} />
       <div className=" bg-white pt-32 pb-20 m-auto ">
@@ -133,8 +129,8 @@ const Products = ({name,model, image}:{name:string, model:string, image:string})
   return <div>
       <Link href={`/companies/${name}/${encodeURIComponent(model.split(' ')[1])}`}> 
 
-    <div className=" ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
-        <img className=" rounded-lg hover:shadow-2xl transition-all duration-500" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />
+    <div className=" p-2 shadow-lg hover:shadow-xl hover:scale-110 ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
+        <img className=" rounded-lg  transition-all duration-500" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />
         <div className=" mt-2 text-center text-xl font-semibold">
           {model}
         </div>

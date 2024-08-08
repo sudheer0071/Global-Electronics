@@ -23,19 +23,21 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
       <div style={{ display: 'inline', fontSize: '20px', fontWeight: 600 }}>Name: </div> {firstName} <br /> 
       <div style={{ display: 'inline', fontWeight: 600 }}>Phone number: </div>
       <div style={{ display: 'inline', color: '#1E3A8A', fontSize: '20px' }}>{phone}</div> <br /> 
-      <div style={{ display: 'inline', fontWeight: 600 }}>Email: </div>  
+      {email?<> <div style={{ display: 'inline', fontWeight: 600 }}>Email: </div>  </>:<></>} 
       <div style={{ display: 'inline', color: '#1E3A8A', fontSize: '16px' }}>
         <a href={`mailto:${email}`} style={{fontWeight:500,fontSize: '20px'}}>{email}</a>
       </div> <br /> 
       {isProduct?<div>
         <div style={{ display: 'inline', fontSize: '20px', fontWeight: 600 }}>Requested Product: </div> <div style={{display:'inline',color: '#1E3A8A' }} > {product} </div><br /> 
       </div>:''} 
+      {message?<>
       <div style={{ marginTop: '9px' }}>
         has sent you the following message:
       </div>
       <div style={{ marginTop: '5px', maxWidth: '600px', width: '100%', borderRadius: '8px', padding: '16px', border: '2px solid #0EA5E9', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', paddingLeft: '40px' }}>
         {message}
       </div>
+      </>:<></>}
     </div>
   </div>
 );

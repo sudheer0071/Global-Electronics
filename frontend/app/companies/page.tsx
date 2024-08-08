@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
+import { Loader } from "../components/Loader"
 
 
 
@@ -90,13 +91,11 @@ import { BACKEND_URL } from "../config"
     }, 2000);
   }, []);
 
-//   if (loading) {
-//     return  <div className=" text-black h-screen flex justify-center items-center bg-white"> 
-//     <div className=" loader scale-150">
-
-//     </div>
-//  </div>
-//   }
+  // if (loading) {
+  //   return <div>
+  //   <Loader/>
+  // </div>
+  // }
 
   return <div>
       <TopCard label="Companies" />

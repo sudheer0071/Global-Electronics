@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { BACKEND_URL } from "../config"
+import { BACKEND_URL } from "../lib/config"
 import { Loader } from "../components/Loader"
 
 

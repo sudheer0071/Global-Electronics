@@ -2,12 +2,13 @@
 import TopCard from "@/app/components/cards/TopCard"
 import { useParams} from 'next/navigation' 
 import { NextPage } from 'next';
-import { useEffect, useState } from "react"; 
+import { useEffect, useMemo, useState } from "react"; 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader } from "../../components/Loader";
 import axios from 'axios'
-import { BACKEND_URL } from "@/app/config";
+import { BACKEND_URL } from "@/app/lib/config";
+import { Pagination } from "@/app/components/Pagination";
  
 const Company:NextPage = ()=>{
   // const [company, setCompany] = useState<string | string[] | undefined>();
@@ -15,6 +16,7 @@ const Company:NextPage = ()=>{
   const name  = useParams() 
   const[company, setCompany] = useState<string|string[]>('')
   const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
   const [companies, setCompanies] = useState({
     name:'',
     image:'',
@@ -27,7 +29,7 @@ const Company:NextPage = ()=>{
       }
     ]
   })
- 
+  let pageSize = 12;
     const Companies =   {
       companyName:"Mitsubishi",
       image:"2020/03/S02-pic1.jpg",
@@ -54,10 +56,415 @@ const Company:NextPage = ()=>{
           model:"VFD",
           image:"2021/02/Mitsubishi-VFD-1.jpg"
         },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
+        {
+          model:"Mitsubishi PLC",
+          image:"2021/02/Mitsubishi-PLC-1.jpg",
+        },
+        {
+          model:"Mitsubishi Servomotor",
+          image:"2021/02/Mitsubishi-Servo-Motor-1.jpg"
+        },
+        {
+          model:"Mitsubishi Servo Drive",
+          image: "2021/02/Mitsubishi-servo-drive-2.jpg"
+        },
+        {
+          model:"Mitsubishi 109P0424H302",
+          image:"2021/02/Mitsubishi-HMI-1.jpg"
+        },
+        {
+          model:"VFD",
+          image:"2021/02/Mitsubishi-VFD-1.jpg"
+        },
       ]
     }   
   console.log(name.name);
-  
+
+  const currentProducts = useMemo(()=>{
+    const firstPageIdx = (currentPage - 1) * pageSize;
+    const lastPageIdx = pageSize + firstPageIdx;
+    return Companies.products.slice(firstPageIdx, lastPageIdx);
+  },[currentPage])
 
     const sendReq = async () => {
       try{
@@ -117,8 +524,10 @@ const Company:NextPage = ()=>{
           We carry the following products from {Companies.companyName} but not limited to
           </div> 
           <div className=" mt-10 grid grid-cols-4"> 
-            {Companies.products.map((product,idx)=><Products name={JSON.stringify(name)} key={idx} model={product.model} image={product.image} />) } 
+            {currentProducts.map((product,idx)=><Products name={JSON.stringify(name)} key={idx} model={product.model} image={product.image} />) } 
           </div>
+        <Pagination currentPage={currentPage} totalCount={Companies.products.length} onPageChange={(page:number)=>setCurrentPage(page)} pageSize={pageSize} />
+
         </div> 
       </div>
   </div>
@@ -129,7 +538,7 @@ const Products = ({name,model, image}:{name:string, model:string, image:string})
   return <div>
       <Link href={`/companies/${name}/${encodeURIComponent(model.split(' ')[1])}`}> 
 
-    <div className=" p-2 shadow-lg hover:shadow-xl hover:scale-110 ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
+    <div className=" p-4 mr-8 shadow-lg hover:shadow-xl hover:scale-110 ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
         <img className=" rounded-lg  transition-all duration-500" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />
         <div className=" mt-2 text-center text-xl font-semibold">
           {model}

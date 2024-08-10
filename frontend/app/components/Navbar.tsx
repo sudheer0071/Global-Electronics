@@ -10,7 +10,7 @@ import {  quoteState, sendEnquiryState, showSearchState } from "../recoilContext
 import { Search } from "lucide-react";
 import { countries } from "./sample";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "../lib/config";
 import { Loader } from "./Loader";
  
 export default function Navbar() {

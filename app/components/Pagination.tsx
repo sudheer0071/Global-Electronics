@@ -19,11 +19,13 @@ export const Pagination =({onPageChange, totalCount, siblingCount, currentPage, 
   let lastPage = pageinationRange && pageinationRange[pageinationRange.length - 1];
   
   return <div className=" py-10 justify-center flex gap-5">
-        <ChevronLeft onClick={()=> { currentPage===1?null:onPageChange(currentPage-1)}} size={42} className={` ${currentPage===1?' text-gray-300 cursor-not-allowed bg-none hover:bg-none':' hover:bg-slate-200 cursor-pointer'} text-lg transition-all duration-500  p-1 text-gray-700 rounded-full border-2`} />
+        <ChevronLeft onClick={()=> { currentPage===1?null:onPageChange(currentPage-1)}} size={42} className={` ${currentPage===1?' text-gray-300 cursor-not-allowed bg-none hover:bg-none':' hover:bg-slate-200 cursor-pointer text-gray-700 '} text-lg transition-all duration-500 p-1 rounded-full border-2`} />
+
         <div className="flex">
+
          {pageinationRange?.map((pageNumber)=> {
           if (pageNumber === DOTS) {
-            return <div className=" text-black">...</div>
+            return <div className=" text-black ">. . .</div>
           }
    console.log(pageNumber);
    

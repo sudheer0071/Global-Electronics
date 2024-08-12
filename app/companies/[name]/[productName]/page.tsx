@@ -10,7 +10,7 @@ import { useRecoilState } from "recoil"
 import { enquiryState, showSearchState } from "@/app/recoilContextProvider"
 import { EnquiryCard } from "@/app/components/cards/EnquiryCard"
 import axios from "axios"
-import { BACKEND_URL, R2 } from "@/app/config"
+import { BACKEND_URL, R2 } from "@/app/lib/config"
 import { Loader } from "@/app/components/Loader"
 
 const Products = () => {

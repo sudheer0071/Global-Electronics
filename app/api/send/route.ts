@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { EmailTemplate } from '../../components/EmailTemplate';
 import { Resend } from 'resend';
 
-console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
-const api = process.env.RESEND_API_KEY || ""
+// console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
+const api = process.env.RESEND_API_KEY || " "
 const resend = new Resend(api);
 console.log();
 

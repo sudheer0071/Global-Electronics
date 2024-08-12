@@ -23,13 +23,13 @@ export const Pagination =({onPageChange, totalCount, siblingCount, currentPage, 
 
         <div className="flex">
 
-         {pageinationRange?.map((pageNumber)=> {
+         {pageinationRange?.map((pageNumber, idx)=> {
           if (pageNumber === DOTS) {
-            return <div className=" text-black ">. . .</div>
+            return <div key={idx} className=" text-black ">. . .</div>
           }
    console.log(pageNumber);
    
-          return <div className={`${pageNumber==currentPage?'bg-slate-300 ':''} transition-all duration-500 px-4 py-2 mx-4 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded-full text-lg`} onClick={()=> onPageChange(pageNumber)}>
+          return <div key={idx} className={`${pageNumber==currentPage?'bg-slate-300 ':''} transition-all duration-500 px-4 py-2 mx-4 bg-gray-200 hover:bg-gray-300 cursor-pointer rounded-full text-lg`} onClick={()=> onPageChange(pageNumber)}>
             {pageNumber} 
           </div>
          } )} 

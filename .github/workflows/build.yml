@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-      
+env:
+  RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}      
 
 jobs:
   build: 

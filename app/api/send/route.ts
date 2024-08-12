@@ -5,8 +5,7 @@ import { Resend } from 'resend';
 
 // console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
 const api = process.env.RESEND_API_KEY || ""
-const resend = new Resend(api);
-console.log();
+const resend = new Resend(api); 
 
 type RequestBody = {
   email: string;

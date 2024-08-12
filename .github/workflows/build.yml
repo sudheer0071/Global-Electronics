@@ -1,4 +1,4 @@
-name: Build Succeeds on PR
+name: Build Succeeds on Push
 
 on: 
   push:
@@ -20,4 +20,4 @@ jobs:
         run: npm install 
         
       - name: Run Build
-        run: npm run biuld
+        run: npm run build

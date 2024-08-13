@@ -29,7 +29,7 @@ console.log(body.isProduct);
 
   try {
     const { data, error } = await resend.emails.send({
-      from: 'services@sudheer.tech',
+      from: 'enquiry@globalelectronicsolutions.in',
       to: ['sudheer1614@gmail.com'],
       subject: 'testing email 📨',
       react: EmailTemplate({ firstName:body.name, product:body.product , email:body.email, phone:body.phone, message:body.message, isProduct:body.isProduct}),
@@ -40,6 +40,8 @@ console.log(body.isProduct);
     });
 
     if (error) {
+      console.log(error);
+      
       return Response.json({ error }, { status: 500 });
     }
  

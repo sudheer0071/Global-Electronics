@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  django-backend:
+    image: sudheer007dfs/ges-backend
+    container_name: django-server
+    ports:
+      - "8000:8000" 
+
+  frontend:
+    image: sudheer007dfs/ges-frontend:v3
+    container_name: client-server
+    depends_on:
+      - django-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env

@@ -114,7 +114,7 @@ else{
     
   const onSubmitContact = async () =>{ 
     
-    if (name==""||email==""||phone==""||product=="") {
+    if (name==""||email==""||phone=="") {
       toast.warning( 
         "Please enter all the necessary feilds"
    )
@@ -137,6 +137,12 @@ else{
   const handleSubmit = ()=>{
     if (enquireyBtn||sendEnquiry) {
       onSubmitEnquire()
+      if (productName) {
+        console.log("product name");
+        console.log(productName);
+        
+        setProduct(productName)
+      }
     }
     if (quoteBtn) {
       onSubmitQuote()

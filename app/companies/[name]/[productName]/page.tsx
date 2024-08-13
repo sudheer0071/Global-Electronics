@@ -173,7 +173,7 @@ console.log(productName);
     sendReq();
     setTimeout(() => {
     }, 2000);
-  }, [showSearch]);
+  }, []);
 
   if (loading) {
     return <div className="">

@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # Adjusted to trigger on pushes to master
+env:
+  RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}    
 
 jobs:
   build-and-push:

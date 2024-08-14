@@ -5,7 +5,7 @@ on:
     branches:
       - main  # Adjusted to trigger on pushes to master
 env:
-  RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}    
+  RESEND_API_KEY: ${{ secrets.RESEND_API_KEY}}    
 
 jobs:
   build-and-push:
@@ -14,6 +14,12 @@ jobs:
     - name: Check Out Repo
       uses: actions/checkout@v2
 
+    - name: 'Create env file'
+      run:
+          touch .env
+          echo RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} >> .env
+          cat .env
+          
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
       with:

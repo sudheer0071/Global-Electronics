@@ -4,8 +4,8 @@ import { EmailTemplate } from '../../components/EmailTemplate';
 import { Resend } from 'resend';
 
 // console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
-// const api = process.env.RESEND_API_KEY || ""
-const api = "re_ZV64QyeN_34HVyihAmqmDaKTLtErCVs5t"
+const api = process.env.RESEND_API_KEY || ""
+// const api = "re_ZV64QyeN_34HVyihAmqmDaKTLtErCVs5t"
 const resend = new Resend(api); 
 
 type RequestBody = {

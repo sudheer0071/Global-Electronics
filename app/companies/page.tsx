@@ -5,13 +5,19 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { BACKEND_URL } from "../lib/config"
+import { BACKEND_URL, R2 } from "../lib/config"
 import { Loader } from "../components/Loader"
 
-
+// interface companyuProps {
+ 
+//   company_name:string,
+//  img:[]
+ 
+// }
 
  const AllCompanies = ()=>{
   const [loading, setLoading] = useState(false)
+  const [companies, setCompanies] = useState<any>([])
 
   const router = useRouter()
   // const [company, setCompany] = useState([
@@ -80,6 +86,7 @@ import { Loader } from "../components/Loader"
     setTimeout(() => {
       setLoading(false)
     }, 2000);
+    setCompanies(response)
     console.log(response);
     // setCompany(response)
   }
@@ -104,9 +111,8 @@ import { Loader } from "../components/Loader"
        Your Strong Servomotor Distributor
         </div>
         <div className=" grid md:grid-cols-3 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 md:px-7 px-4 lg:px-10 py-11">
-    {company.map((comp, idx)=>(
-      <CompaniesCard key={idx} name={comp.name} image={comp.image}  />
-      
+    {companies.map((comp:any, idx:any)=>(
+      <CompaniesCard key={idx} name={comp.company_name} image={comp.img[0].image}  /> 
     ))}
     </div> 
       </div>
@@ -118,7 +124,7 @@ const CompaniesCard = ({name,image}:{name:string, image:string})=>{
     <Link  href={`/companies/${encodeURIComponent(name)}`}>
     <div className=" mt-10 p-3 mr-5 flex flex-col hover:scale-105 hover:text-blue-500 text-black transition-all duration-500">
       <div className=" h-full w-full shadow-xl hover:shadow-2xl rounded-md transition-all duration-500 justify-center flex">
-      <img width={200} className=" rounded-md p-3" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />
+      <img width={200} className=" rounded-md p-3" src={`${R2}${image}`} alt="" />
       </div>
       <div className=" flex justify-center mt-5">
       <p className=" text-3xl font-medium ">{name}</p>

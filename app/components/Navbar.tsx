@@ -1,5 +1,5 @@
 "use client";
-import React, { act, useRef, useState } from "react";
+import React, { act, useEffect, useRef, useState } from "react";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { cn } from "../lib/utils";
 import { Button } from "./ui/Button";
@@ -29,7 +29,7 @@ function NavbarCheck({ className }: { className?: string }) {
   const [sendEnquiry, setSendEnquiry] = useRecoilState(sendEnquiryState)
   const[start,setStart] = useState(false) 
   const [showSearch, setShowSearch] = useRecoilState(showSearchState)
-
+  const [list, setList] = useState([])
   const[searchTerm, setSearchTerm] = useState('')
   const[searchResult, setSearchResult] = useState<[{company:string [], product:string[]}]>([
     {
@@ -69,27 +69,6 @@ const getData = async (value:string)=>{
    console.log(result);
 }
 
-// Main call the backend API
-const getSearched = async (value:string)=>{
-  if (value.length==0 || value==' ') {
-    setStart(false)
-    setSearchResult([{company:[''], product:[]}])
-    return;
-  }
-   const res  = await axios.get(`${BACKEND_URL}/products/search/?query=${value}`) 
-  const result = res.data.map(({ details }:any) => details);
-  const companies = res.data.map(({ manufacturer }:any)=>manufacturer);
-  const company = companies.map((mfg:any)=>mfg.company_name);
-  const filteredRes = result.map((name:string[]|any)=>name.map((nme:any)=>nme.value))
- 
-  console.log(res.data);
-  console.log(result);
-  console.log(company);
-  console.log(filteredRes); 
- setSearchResult([{company:company, product:filteredRes}])
-}
-
-
 // debounce function
 function debounce (func:any, delay:number){
   return function(...args:[]){
@@ -103,14 +82,37 @@ function debounce (func:any, delay:number){
 
 
 // Debounce  Search function
-const debounceSearch =(value:string)=> debounce(getSearched(value),DELAY)
+const debounceSearch= (value:string) => debounce(getSearched(value), DELAY);
 
+// Main call the backend API
+const getSearched = async (value:string)=>{
+  if ( value.length==0 || value==' ') {
+    setStart(false)
+    setSearchResult([{company:[''], product:[]}])
+    return;
+  }
+  else{
+    const res  = await axios.get(`${BACKEND_URL}/products/search/?query=${value}`) 
+   const result = await res.data.map(({ details }:any) => details);
+   const companies = res.data.map(({ manufacturer }:any)=>manufacturer);
+   const company = companies.map((mfg:any)=>mfg.company_name);
+   const filteredRes = result.map((name:string[]|any)=>name.map((nme:any)=>nme.value)).sort()
+  
+   console.log(res.data);
+   console.log(result);
+   console.log(company);
+   console.log(filteredRes); 
+  setSearchResult([{company:company, product:filteredRes}])
+  }
+}
+
+
+ 
 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
   const { value } = e.target
   setSearchTerm(value)
   setShowSearch(true)
-  setStart(true)
-//  getData(value)
+  setStart(true) 
   debounceSearch(value)
 }
  
@@ -141,6 +143,21 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
   );
   
 const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH", "yashkawa", "keyence", "sick", "panacsonic", "intek/seinvi", "schneider", "siemens", "hongfa"]
+
+useEffect(()=>{
+  sendReq()
+},[])
+  
+const sendReq = async () => { 
+  const res = await axios.get(`${BACKEND_URL}/companies/all`)
+  const response = res.data 
+  console.log("nav");
+  const lists = response.map((comp:any)=> comp.company_name)
+  setList(lists) 
+  console.log(lists);
+  
+  // setCompany(response)
+}
 
   return (
     <div
@@ -177,11 +194,11 @@ const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH",
             </MenuItem>
             <MenuItem setActive={setActive} active={active} item={"Companies"}>
               <div onClick={()=>{}} className=" flex flex-col space-y-4 text-sm">
-                {companies.map((company, idx) => {
-                  const formattedCompany = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
+                {list.map((company, idx) => { 
+                  // const formattedCompany = company.comapny_name.charAt(0).toUpperCase() + company.company_name.slice(1).toLowerCase();
                   return (
-                    <HoveredLink onClick={()=>setActive('')} key={idx} href={`/companies/${company}`}>
-                      {formattedCompany}
+                    <HoveredLink onClick={()=>setActive('')} key={idx} href={`/companies/${company }`}>
+                      {company}
                     </HoveredLink>
                   );
                 })}
@@ -224,9 +241,9 @@ const companies =["pro-face", "Mitsubishi", "omron", "fanux", "delta", "hITECH",
   </div>
 )}
 
- {  debounceTimeout.current && <div>
+ {/* {  debounceTimeout.current && <div>
  <Loader /> loading
- </div>}
+ </div>} */}
 {searchResultEmpty && showSearch &&
   searchTerm.length>0 && 
   !debounceTimeout.current && (

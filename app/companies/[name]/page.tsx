@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader } from "../../components/Loader";
 import axios from 'axios'
-import { BACKEND_URL } from "@/app/lib/config";
+import { BACKEND_URL, R2 } from "@/app/lib/config";
 import { Pagination } from "@/app/components/Pagination";
  
 const Company:NextPage = ()=>{
@@ -18,18 +18,21 @@ const Company:NextPage = ()=>{
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [companies, setCompanies] = useState({
-    name:'',
-    image:'',
-    header:'',
-    about:['',' ',' '],
+    
+manufacturer
+:{
+  company_name:'',
+      img:[{image:''}],
+      about:['',' ',' '],
+    }, 
     products:[
       {
-        model:'',
+        name:'',
         image:'',
       }
     ]
   })
-  let pageSize = 12;
+  let pageSize = 6;
     const Companies =   {
       companyName:"Mitsubishi",
       image:"2020/03/S02-pic1.jpg",
@@ -463,7 +466,7 @@ const Company:NextPage = ()=>{
   const currentProducts = useMemo(()=>{
     const firstPageIdx = (currentPage - 1) * pageSize;
     const lastPageIdx = pageSize + firstPageIdx;
-    return Companies.products.slice(firstPageIdx, lastPageIdx);
+    return companies.products.slice(firstPageIdx, lastPageIdx);
   },[currentPage])
 
     const sendReq = async () => {
@@ -491,7 +494,7 @@ const Company:NextPage = ()=>{
       }, 2000);
     },[])
      
-  if (company!='Mitsubishi') {
+  if (company!=name.name) {
     return <div className=" ">
     <Loader/>
   </div>
@@ -499,7 +502,7 @@ const Company:NextPage = ()=>{
   return <div>
     <div> 
     </div>
-    <TopCard label={Companies.companyName} />
+    <TopCard label={companies.manufacturer.company_name} />
       <div className=" bg-white pt-32 pb-20 m-auto ">
         <div className=" text-4xl text-black font-semibold flex justify-center">
           {Companies.header} 
@@ -508,10 +511,10 @@ const Company:NextPage = ()=>{
           <div className=" px-4 max-w-7xl w-full mx-auto">
           <div className=" flex">
           <div className=" z-0 hd"> 
-            <img className="shadow-2xl ml-10" src={`https://www.plc-sensors.com/wp-content/uploads/${Companies.image}}`} alt="" /> 
+            <img className="shadow-2xl ml-10" src={`${R2}${companies.manufacturer.img[0].image}`} alt="" /> 
           </div>
           <div className=" ml-24 max-w-2xl font-light text-black">
-            {Companies.about.map((about, idx)=><p className=" mt-8" key={idx}>{about}</p>)} 
+            {companies.manufacturer.about.map((about, idx)=><p className=" mt-8" key={idx}>{about}</p>)} 
           </div>
           </div>
           </div>
@@ -524,9 +527,9 @@ const Company:NextPage = ()=>{
           We carry the following products from {Companies.companyName} but not limited to
           </div> 
           <div className=" mt-10 grid grid-cols-4"> 
-            {currentProducts.map((product,idx)=><Products name={JSON.stringify(name)} key={idx} model={product.model} image={product.image} />) } 
+            {currentProducts.map((product,idx)=><Products name={JSON.stringify(name)} key={idx} model={product.name} image={product.image} />) } 
           </div>
-        <Pagination currentPage={currentPage} totalCount={Companies.products.length} onPageChange={(page:number)=>setCurrentPage(page)} pageSize={pageSize} />
+        <Pagination currentPage={currentPage} totalCount={companies.products.length} onPageChange={(page:number)=>setCurrentPage(page)} pageSize={pageSize} />
 
         </div> 
       </div>
@@ -535,11 +538,15 @@ const Company:NextPage = ()=>{
 
 
 const Products = ({name,model, image}:{name:string, model:string, image:string})=>{
+  console.log(model.split(' ')[0]);
+  
   return <div>
-      <Link href={`/companies/${name}/${encodeURIComponent(model.split(' ')[1])}`}> 
+      <Link href={`/companies/${name}/${encodeURIComponent(model).split(' ')[0]}`}> 
 
     <div className=" p-4 mr-8 shadow-lg hover:shadow-xl hover:scale-110 ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
-        <img className=" rounded-lg  transition-all duration-500" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} alt="" />
+      <div className=" h-full">
+        <img className=" rounded-lg  transition-all duration-500 " src={`${R2}${image}`} alt={model} />
+      </div>
         <div className=" mt-2 text-center text-xl font-semibold">
           {model}
         </div>

@@ -433,7 +433,7 @@ const Service = ({ image, head, num }: { num: number, image: string, head: strin
 
 const RelatedProducts = ({ company, image, name }: { company: string, image: string, name: string }) => {
   return <div className=" shadow-lg shrink-0 transition-all duration-500 hover:text-blue-500  hover:scale-110 hover:shadow-2xl">
-    <Link href={`/companies/${company}/${encodeURIComponent(name)}`}>
+    <Link href={`/companies/${company}/${encodeURIComponent(name.split(' ')[0])}`}>
       <div className=" flex justify-center items-center">
         <img
           width={220}

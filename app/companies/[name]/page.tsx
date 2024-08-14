@@ -466,8 +466,10 @@ manufacturer
   const currentProducts = useMemo(()=>{
     const firstPageIdx = (currentPage - 1) * pageSize;
     const lastPageIdx = pageSize + firstPageIdx;
+    console.log(firstPageIdx, lastPageIdx);
+    
     return companies.products.slice(firstPageIdx, lastPageIdx);
-  },[currentPage])
+  },[currentPage, companies.products])
 
     const sendReq = async () => {
       try{
@@ -537,8 +539,7 @@ manufacturer
 }
 
 
-const Products = ({name,model, image}:{name:string, model:string, image:string})=>{
-  console.log(model.split(' ')[0]);
+const Products = ({name,model, image}:{name:string, model:string, image:string})=>{ 
   
   return <div>
       <Link href={`/companies/${name}/${encodeURIComponent(model).split(' ')[0]}`}> 

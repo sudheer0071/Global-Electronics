@@ -6,6 +6,9 @@ COPY package* .
 
 RUN npm install ionic --loglevel verbose
 
+ARG RESEND_API_KEY
+ENV RESEND_API_KEY=$RESEND_API_KEY
+
 COPY . .
 
 RUN npm run build

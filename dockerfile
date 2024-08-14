@@ -8,8 +8,6 @@ RUN npm install ionic --loglevel verbose
 
 COPY . .
 
-ARG VARIABLE= ${{ secrets.RESEND_API_KEY }}
-
 RUN npm run build
  
 

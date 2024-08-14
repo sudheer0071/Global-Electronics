@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: Check Out Repo
       uses: actions/checkout@v2
-
+ 
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
       with:
@@ -23,8 +23,8 @@ jobs:
       with:
         context: .
         file: ./dockerfile  
-        push: true 
-        secrets: |
+        push: true  
+        build-args : |
             RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
         tags: sudheer007dfs/ges-frontend:v3
 

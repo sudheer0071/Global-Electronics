@@ -38,7 +38,7 @@ export const Products = ()=>{
             Brand Products We Supply
             </div> 
          <div className=" lg:px-0 px-11 grid md:grid-cols-2 lg:grid-cols-3 mt-10">
-          {products.map((prod)=><ProducCards heading={prod.name} image={prod.image} companies={prod.companies} />)}
+          {products.map((prod, idx)=><ProducCards key={idx} heading={prod.name} image={prod.image} companies={prod.companies} />)}
          
          
          </div>

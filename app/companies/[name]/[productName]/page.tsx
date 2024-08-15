@@ -311,7 +311,7 @@ if (!isHydrated) {
                 Product Details
               </div>
               <div className=" relative mt-8">
-               {products.product.details.map((prod)=><ProductDetails name={prod.name} content={prod.value} />)}
+               {products.product.details.map((prod, idx)=><ProductDetails key={idx} name={prod.name} content={prod.value} />)}
               </div>
 
               <div className=" text-xl font-semibold mt-20">

@@ -1,6 +1,6 @@
 export const AdvantageCard = ({title, content, right, image}:{title:string, content:string, right?:boolean, image:string})=>{
   return <div className=" transition-all duration-500 mt-5 hover:bg-[#ffd447] rounded-lg py-10 px-3">
-    <div className=" flex">
+    <div className=" lg:flex">
 
     <div className={`${right?'hidden':''}`}>
       <div className="  "> 
@@ -8,11 +8,11 @@ export const AdvantageCard = ({title, content, right, image}:{title:string, cont
       </div>
       </div>
 
-      <div className={` ${right?'text-right':'text-left'} m-auto px-5 `}>
+      <div className={` ${right?'text-right':'text-left'} m-auto mt-2 lg:mt-0 lg:px-5 `}>
     <div className=" text-xl font-semibold ">
    {title}
     </div>
-    <div className=" mt-5 font-light w-64">
+    <div className=" mt-5 font-light lg:w-64">
    {content}
     </div>
       </div>

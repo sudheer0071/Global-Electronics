@@ -1,7 +1,12 @@
 "use client"
 
-import React from 'react';
-import { RecoilRoot, atom} from 'recoil';  
+import React, { ReactNode, useEffect } from 'react';
+import { RecoilRoot, atom, useSetRecoilState} from 'recoil';  
+import { recoilPersist } from 'recoil-persist'
+
+const { persistAtom } = recoilPersist()
+const isBrowser = typeof window !== 'undefined';
+
 export const quoteState = atom({
   key:"quoteBtn",
   default:false  
@@ -26,6 +31,14 @@ export const showSearchState  = atom({
   key:"showSearch",
   default:false
 })
-export default function RecoilContextProvider({ children }:any){
+
+export const productNameState = atom<string>({
+  key:'productName',
+  default:'',
+  effects_UNSTABLE: isBrowser ? [persistAtom] : [],
+})
+
+export default function RecoilContextProvider({ children }:{children:ReactNode}){
   return <RecoilRoot>{children}</RecoilRoot>
 }
+ 

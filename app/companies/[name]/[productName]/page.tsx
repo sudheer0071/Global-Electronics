@@ -7,7 +7,7 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/app/components/ui/Button"
 import { useRecoilState } from "recoil"
-import { enquiryState, showSearchState } from "@/app/recoilContextProvider"
+import { enquiryState, productNameState, showSearchState } from "@/app/recoilContextProvider"
 import { EnquiryCard } from "@/app/components/cards/EnquiryCard"
 import axios from "axios"
 import { BACKEND_URL, R2 } from "@/app/lib/config"
@@ -131,8 +131,8 @@ console.log(productName);
   const [showSearch, setShowSearch] = useRecoilState(showSearchState)
   const[quantity, setQuantity] = useState(0);
 
-  const[prodName, setProdName] = useState(' Mitsubishi MELSERVO-J4 Servomotor With Break 750W HG-KR73BJ')
-
+  const[prodName, setProdName] = useRecoilState(productNameState)
+  const [isHydrated, setIsHydrated] = useState(false);
   const [products, setProducts] = useState({
     product: {
       details: [{
@@ -154,6 +154,19 @@ console.log(productName);
     setShowEnquiryCard(!showEnquiryCard);
   };
 
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024); // Adjust the breakpoint as needed
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Set initial value
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
 
   const sendReq = async () => {
     setLoading(true)
@@ -164,24 +177,28 @@ console.log(productName);
       setLoading(false)
     }, 2000);
     console.log(response);
+    console.log(localStorage.getItem("productName"));
     setProducts(response)
   }
 
 
   useEffect(() => {
     setShowSearch(false)
-    sendReq();
-    setTimeout(() => {
-    }, 2000);
-  }, []);
+    setIsHydrated(true);
+    sendReq(); 
+  }, [setProducts]);
 
   if (loading) {
     return <div className="">
       <Loader/>
     </div>
   }
+if (!isHydrated) {
+  return <Loader/>
 
-  return <div className=" bg-white">
+}
+
+  return <div suppressHydrationWarning className=" bg-white">
     <div className=" pt-16 pb-24">
       <div className=" text-black max-w-7xl w-full mx-auto">
         <div className=" lg:flex">
@@ -191,12 +208,12 @@ console.log(productName);
                 <motion.div
                   animate={{ x: `-${index * 100}%` }}
                   transition={{ duration: 2.7, ease: [0.32, 0.72, 0, 1] }}
-                  className=" flex justify-items-center items-center md:gap-16 lg:gap-10">
+                  className=" flex justify-items-center items-center gap-10 md:gap-16 lg:gap-10">
                   {products.product.img.map((image, idx) => <>
                     <img
                       key={idx} 
 
-                      src={`${R2}${image.image}`} className="  aspect-[4/3] object-cover" alt="" />
+                      src={`${R2}${image.image}`} className=" rounded-md lg:aspect-[3/3] object-cover" alt="" />
                   </>)}
 
                   {/* {images.map((image) => (
@@ -218,7 +235,7 @@ console.log(productName);
                   </motion.button>
                 )}
 
-                {index + 1 < images.length ? (
+                {index + 4 < images.length ? (
                   <button className="absolute bg-gray-200 right-2 top-1/2 -mt-4 flex h-8 w-8 items-center justify-center hover:scale-125 rounded-full hover:bg-cyan-400 transition duration-500" onClick={() => setIndex(index + 1)}>
                     <ChevronsRightIcon className=" h-6 w-6" />
                   </button>
@@ -238,19 +255,19 @@ console.log(productName);
                     animate={{ x: `-${miniIndex * 100}%` }}
                     transition={{ duration: 2.7, ease: [0.32, 0.72, 0, 1] }}
                     className={` flex max-w-lg md:gap-10 ${images.length<4?' justify-center':''} lg:gap-`}>
-                    {/* {product.product.img.map((image, idx) => (
+                    {products.product.img.map((image, idx) => (
                       <img
                         key={idx}
                         width={120}
                         src={`https://pub-148b30caae4a4303b96f2f375d5f82c0.r2.dev${image.image}`} className="  object-cover" alt="" />
-                    ))} */}
+                    ))}
 
-                    {images.map((image) => (
+                    {/* {images.map((image) => (
                       <img
                         key={image}
                         width={120}
                         src={`https://www.plc-sensors.com/wp-content/uploads/2020/05/${image}`} className="  object-cover" alt="" />
-                    ))}
+                    ))} */}
                   </motion.div>
                   {miniIndex > 0 && (
                     <motion.button
@@ -282,22 +299,19 @@ console.log(productName);
             </div>
           </div>
           <div className=" pl-6 md:flex md:justify-center">
-            <div>
+            <div >
               <div className=" max-w-xl text-[#348ad4] text-3xl sm:text-3xl md:text-3xl lg:text-4xl font-semibold">
-                Mitsubishi MELSERVO-J4 Servomotor With Break 750W HG-KR73BJ
+                {prodName}
               </div>
               <div className=" mt-5 text-xl font-normal">
-                Series#: Mitsubishi Severometer
-              </div>
+             series #{prodName.split(' ')[4] + " " +prodName.split(' ')[5]}
+              </div> 
+              
               <div className=" font-semibold mt-12 text-lg">
                 Product Details
               </div>
               <div className=" relative mt-8">
-                <ProductDetails content={" We are First Class mitsubishi servomotors dealer and mitsubishi servomotors distributor in China."} />
-                <ProductDetails content={" We are First Class mitsubishi servomotors dealer and mitsubishi servomotors distributor in China."} />
-                <ProductDetails content={" We are First Class mitsubishi servomotors dealer and mitsubishi servomotors distributor in China."} />
-                <ProductDetails content={" We are First Class mitsubishi servomotors dealer and mitsubishi servomotors distributor in China."} />
-                <ProductDetails content={" We are First Class mitsubishi servomotors dealer and mitsubishi servomotors distributor in China."} />
+               {products.product.details.map((prod)=><ProductDetails name={prod.name} content={prod.value} />)}
               </div>
 
               <div className=" text-xl font-semibold mt-20">
@@ -315,17 +329,16 @@ console.log(productName);
     <div className=" bg-gray-200 pt-20 pb-10">
       <div className=" text-black max-w-7xl w-full mx-auto">
         <div className=" px-6">
-          <div className=" flex justify-between">
+          <div className=" md:flex lg:flex justify-between">
             <div className=" text-4xl font-semibold mt-9">
               Specifications
             </div>
-            <div className="">
-              <Button onclick={''} height={3} download={true} label={"Download A Manual"} />
+            <div className="flex">
+              <Button onclick={null} height={3} download={true} label={"Download A Manual"} />
             </div>
           </div>
           <div className=" py-10">
-            {products.product.details.map((spec, idx) => <Specifications key={idx} num={idx} name={spec.name} value={spec.value} />)}
-
+            {products.product.details.map((spec, idx) => <Specifications key={idx} num={idx} name={spec.name} value={spec.value} />)} 
           </div>
         </div>
       </div>
@@ -333,12 +346,15 @@ console.log(productName);
 
     <div className="  relative service pt-20 pb-20">
       <div className="z-10 relative text-black max-w-7xl w-full mx-auto px-5">
-        <div className=" flex">
+        <div className=" lg:flex">
           <div className=" text-4xl max-w-xl text-white font-semibold p-3 mr-1">
             Unmatched <div className=" inline mt-3">  customer Service</div>
             <div className=" w-32 h-1 bg-white mt-5"></div>
           </div>
-          <div className="flex flex-wrap">
+          <div className=" hidden lg:flex flex-wrap">
+            {services.map((service, idx) => <Service key={idx} num={idx} head={service.name} image={service.image} />)}
+          </div>
+          <div className=" grid grid-cols-2 lg:hidden flex-hidden">
             {services.map((service, idx) => <Service key={idx} num={idx} head={service.name} image={service.image} />)}
           </div>
         </div>
@@ -348,17 +364,17 @@ console.log(productName);
     <div className="">
       <div className=" text-black max-w-7xl w-full mx-auto mt-32 px-5">
         <div className=" flex py-10">
-          <div className=" text-4xl font-semibold ">
+          <div className=" text-2xl md:text-3xl lg:text-4xl font-semibold ">
             Products You May Also Like
           </div>
           <div className=" max-w-xl w-6/12 h-1 bg-[#ffd447] ml-auto mt-4"></div>
         </div>
         <div>
-          <div className=" relative overflow-hidden pt-10 pb-20">
+          <div className=" relative overflow-hidden pt-6 md:pt-8 lg:pt-10 pb-20">
             <motion.div
               animate={{ x: `-${relatedIndex * 100}%` }}
               transition={{ duration: 2.7, ease: [0.32, 0.72, 0, 1] }}
-              className=" flex md:gap-10  lg:gap-">
+              className=" flex gap-10 md:gap-10  lg:gap-">
 
               {products.related.map((images, index) => (
                 <RelatedProducts key={index} image={images.image} company="mitshibishi" name={images.name} />
@@ -375,7 +391,7 @@ console.log(productName);
                 <ChevronsLeftIcon className=" h-6 w-6" />
               </motion.button>
             )}
-            {relatedIndex + 4 < images.length ? (
+            { relatedIndex+ (isLargeScreen?3:0)  < images.length ? (
               <button className="absolute bg-gray-200 right-2 top-1/2 -mt-4 flex h-8 w-8 items-center justify-center hover:scale-125 rounded-full hover:bg-cyan-400 transition duration-500" onClick={() => setRelatedIndex(relatedIndex + 1)}>
                 <ChevronsRightIcon className=" h-6 w-6" />
               </button>
@@ -397,10 +413,10 @@ console.log(productName);
 }
 
 
-const ProductDetails = ({ content }: { content: string }) => {
+const ProductDetails = ({ name, content }: { name:string, content: string,  }) => {
   return <div>
     <div className=" details ml-4 font-light max-w-xl flex">
-      <p className=" ml-3"> {content} </p>
+      <p className=" ml-3"> Comes with a <div className="inline text-sky-600 font-medium">{name}</div>  of <div className=" inline text-emerald-600 font-medium">{content} </div> </p>
     </div>
   </div>
 }
@@ -420,7 +436,7 @@ const Specifications = ({ name, value, num }: { name: string, value: string, num
 
 const Service = ({ image, head, num }: { num: number, image: string, head: string }) => {
   return <div>
-    <div className={`${num == 0 ? 'ml-60' : ' px-6'} ${num == 1 ? ' ml-4' : ''} ${num == 2 || num == 3 ? ' m-6' : ''} ${num == 2 ? ' ml-9' : ''} shadow-lg p-6 bg-white max-w-80  hover:shadow-2xl px-10 transition-all rounded-lg duration-500`}>
+    <div className={`${num == 0 ? 'lg:ml-56' : ' lg:px-6'} ${num == 1 ? ' lg:ml-4' : ''} ${num == 2 || num == 3 ? ' lg:m-6' : ''} ${num == 2 ? ' lg:ml-9' : ''} shadow-lg p-6   sm:mt-6 mt-6 mx-2 sm:ml-5 bg-white max-w-80  hover:shadow-2xl lg:px-10 transition-all rounded-lg duration-500`}>
       <div className=" flex justify-center">
         <img width={100} src={`https://www.plc-sensors.com/wp-content/themes/mml-theme/dist/img/p02-1-1-1/s03-${image}`} alt="" />
       </div>
@@ -432,13 +448,15 @@ const Service = ({ image, head, num }: { num: number, image: string, head: strin
 }
 
 const RelatedProducts = ({ company, image, name }: { company: string, image: string, name: string }) => {
+  const [productName, setProductName] = useRecoilState(productNameState)
+
   return <div className=" shadow-lg shrink-0 transition-all duration-500 hover:text-blue-500  hover:scale-110 hover:shadow-2xl">
-    <Link href={`/companies/${company}/${encodeURIComponent(name.split(' ')[0])}`}>
+    <Link onClick={()=>setProductName(name)} href={`/companies/${company}/${encodeURIComponent(name.split(' ')[0])}`}>
       <div className=" flex justify-center items-center">
         <img
           width={220}
           src={`${R2}${image}`}
-          className=" aspect-[3/3] object-cover"
+          className=" lg:aspect-[3/3] object-cover"
           alt=""
         />
       </div>

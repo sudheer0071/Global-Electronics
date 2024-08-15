@@ -9,6 +9,8 @@ import { Loader } from "../../components/Loader";
 import axios from 'axios'
 import { BACKEND_URL, R2 } from "@/app/lib/config";
 import { Pagination } from "@/app/components/Pagination";
+import { useRecoilState } from "recoil";
+import { productNameState } from "@/app/recoilContextProvider";
  
 const Company:NextPage = ()=>{
   // const [company, setCompany] = useState<string | string[] | undefined>();
@@ -505,30 +507,32 @@ manufacturer
     <div> 
     </div>
     <TopCard label={companies.manufacturer.company_name} />
-      <div className=" bg-white pt-32 pb-20 m-auto ">
-        <div className=" text-4xl text-black font-semibold flex justify-center">
-          {Companies.header} 
+      <div className=" bg-white pt-32 pb-20 md:m-auto lg:m-auto ">
+        <div className=" mx-6 md:mx-5 lg:mx-0 text-2xl md:text-3xl lg:text-4xl text-black font-semibold flex justify-center">
+         A Professional {companies.manufacturer.company_name} distrubutor
         </div>
-        <div id="comp" className=" textblack py-12 mt-12 ">
-          <div className=" px-4 max-w-7xl w-full mx-auto">
-          <div className=" flex">
-          <div className=" z-0 hd"> 
-            <img className="shadow-2xl ml-10" src={`${R2}${companies.manufacturer.img[0].image}`} alt="" /> 
+        <div id="comp" className="  textblack py-8 mt-3 md:py-10 md:mt-10 lg:py-12 lg:mt-12 ">
+          <div className=" px-4 lg:max-w-7xl w-full  lg:mx-auto">
+          <div className=" lg:flex">
+          <div className=" z-0 hd flex justify-center"> 
+            <img className="shadow-2xl lg:ml-10" src={`${R2}${companies.manufacturer.img[0].image}`} alt="" /> 
           </div>
-          <div className=" ml-24 max-w-2xl font-light text-black">
+          <div>
+          <div className=" mx-2 sm:mx-5 md:mx-7 lg:mx-0 lg:ml-24 lg:max-w-2xl font-light text-black">
             {companies.manufacturer.about.map((about, idx)=><p className=" mt-8" key={idx}>{about}</p>)} 
+          </div>
           </div>
           </div>
           </div>
         </div>
       </div>
 
-      <div className="pt-20 pb-10 bg-white text-black">
-        <div className=" flex flex-col mx-32">
-          <div className=" text-4xl w-full font-semibold max-w-4xl">
-          We carry the following products from {Companies.companyName} but not limited to
+      <div className=" md:pt-14 md:pb-5 lg:pt-20 lg:pb-10 bg-white text-black">
+        <div className=" flex flex-col mx-6 sm:mx-14 md:mx-24 lg:mx-32">
+          <div className=" text-2xl md:text-3xl lg:text-4xl w-full font-semibold max-w-4xl">
+          We carry the following products from {companies.manufacturer.company_name} but not limited to
           </div> 
-          <div className=" mt-10 grid grid-cols-4"> 
+          <div className=" mt-10 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4"> 
             {currentProducts.map((product,idx)=><Products name={JSON.stringify(name)} key={idx} model={product.name} image={product.image} />) } 
           </div>
         <Pagination currentPage={currentPage} totalCount={companies.products.length} onPageChange={(page:number)=>setCurrentPage(page)} pageSize={pageSize} />
@@ -541,14 +545,16 @@ manufacturer
 
 const Products = ({name,model, image}:{name:string, model:string, image:string})=>{ 
   
-  return <div>
-      <Link href={`/companies/${name}/${encodeURIComponent(model).split(' ')[0]}`}> 
+  const [productName, setProductName] = useRecoilState(productNameState)
 
-    <div className=" p-4 mr-8 shadow-lg hover:shadow-xl hover:scale-110 ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
+  return <div>
+      <Link onClick={()=>setProductName(model)} href={`/companies/${name}/${encodeURIComponent(model.split(' ')[0])}`}> 
+
+    <div className=" mt-2 p-2 mr-3 md:p-2 md:mr-4 lg:p-4 lg:mr-8 shadow-lg hover:shadow-xl hover:scale-110 ml-3 md:ml-4 lg:ml-6 hover:text-blue-500 cursor-pointer transition-all duration-500"> 
       <div className=" h-full">
         <img className=" rounded-lg  transition-all duration-500 " src={`${R2}${image}`} alt={model} />
       </div>
-        <div className=" mt-2 text-center text-xl font-semibold">
+        <div className=" mt-2 text-center text-sm md:text-lg lg:text-xl font-semibold">
           {model}
         </div>
     </div>

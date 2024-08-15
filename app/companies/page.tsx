@@ -107,10 +107,10 @@ import { Loader } from "../components/Loader"
   return <div>
       <TopCard label="Companies" />
       <div className=" bg-white py-32 m-auto ">
-        <div className=" text-4xl text-black font-semibold px-10 flex justify-center">
+        <div className=" text-2xl md:text-3xl lg:text-4xl text-black font-semibold px-10 flex justify-center">
        Your Strong Servomotor Distributor
         </div>
-        <div className=" grid md:grid-cols-3 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 md:px-7 px-4 lg:px-10 py-11">
+        <div className=" grid md:grid-cols-3 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 md:px-7 px-2 sm:px-4 lg:px-10 py-11">
     {companies.map((comp:any, idx:any)=>(
       <CompaniesCard key={idx} name={comp.company_name} image={comp.img[0].image}  /> 
     ))}
@@ -127,7 +127,7 @@ const CompaniesCard = ({name,image}:{name:string, image:string})=>{
       <img width={200} className=" rounded-md p-3" src={`${R2}${image}`} alt="" />
       </div>
       <div className=" flex justify-center mt-5">
-      <p className=" text-3xl font-medium ">{name}</p>
+      <p className=" text-xl md:text-3xl lg:text-3xl font-medium ">{name}</p>
       </div>
     </div>
       </Link>

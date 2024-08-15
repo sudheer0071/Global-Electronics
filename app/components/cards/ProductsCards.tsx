@@ -1,6 +1,8 @@
  import Image from "next/image"
 import { Button } from "../ui/Button"
 import { ArrowBigDown, ExternalLink } from 'lucide-react'
+import { R2 } from "@/app/lib/config"
+import Link from "next/link"
 
 type productProps = {
   heading:string, 
@@ -14,19 +16,23 @@ export const ProducCards = ({heading, image, companies}:productProps)=>{
       {heading}
      </div>
      <div>
-      <img width={470} alt="" src={`https://www.plc-sensors.com/wp-content/uploads/${image}`} />
+      <img width={470} alt="" src={`${image}`} />
      </div>
-     <div className=" px-5 py-4 shadow-lg -mt-14 text-black grid grid-cols-2">
+     <div className=" px-5 py-4 shadow-lg text-black grid grid-cols-2">
        {companies.map((company, idx)=><Companies key={idx} name={company}/>)}  
      </div>
      <div className=" ">
-     <Button productCard={true} label={"View More >>"} onclick={''}/>
+      <Link href={'/companies'} >
+     <Button productCard={true} label={"View More >>"} onclick={null}/>
+      </Link>
      </div>
   </div>
 }  
 
 function Companies({name}:{name:string}){
   return <div className=" mt-4 text-lg font-medium cursor-pointer hover:text-sky-700">
-    <ExternalLink size={15} className=" inline"/>  {name}
+       <Link  href={`/companies/${encodeURIComponent(name)}`}> 
+  <ExternalLink size={15} className=" inline"/>  {name}
+    </Link>
   </div>
 }

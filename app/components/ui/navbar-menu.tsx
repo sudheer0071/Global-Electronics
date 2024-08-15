@@ -28,7 +28,7 @@ export const MenuItem = ({
   return (
     <div onMouseEnter={() => setActive(item)} className="relative ">
       <motion.div
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.5 }}
         className="cursor-pointer text-black transition-all duration-500 hover:text-yellow-500 hover:opacity-[0.9] "
       > 
       <div className=" flex">
@@ -42,7 +42,7 @@ export const MenuItem = ({
           transition={transition}
         >
           {active === item && (
-            <div className="absolute top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-1">
+            <div className="absolute z-50 top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-1">
               <motion.div
                 transition={transition}
                 layoutId="active" // layoutId ensures smooth animation
@@ -74,7 +74,7 @@ export const Menu = ({
     <div>
     <nav
       onMouseLeave={() => setActive(null)} // resets the state
-      className="relative shadow-md text-xl hover:text-yellow-500 gap-10 text-black font-semibold dark:border-white/[0.2] h-[80px] bg-white shadow-input flex justify-betwdeen space-x-4 px-8 py-6 "
+      className="relative lg:shadow-md text-xl hover:text-yellow-500 gap-10 text-black font-semibold dark:border-white/[0.2] h-[80px] bg-white shadow-input lg:flex md:flex items-center justify-betwdeen space-x-4 px-8 lg:py-6 "
     >
       {children} 
     </nav> 

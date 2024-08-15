@@ -79,7 +79,7 @@ body {
   background-image: url(https://www.plc-sensors.com/wp-content/themes/mml-theme/dist/img/common/s01-bg.jpg);
   background-size: cover; /* or background-size: 100% 100%; */
   background-position: center;
-  /* background-repeat: no-repeat;  */
+  background-repeat: no-repeat; 
   height: 400px;
   position: relative;
 }
@@ -89,7 +89,7 @@ body {
   top: 0;
   right: 0;
   z-index: 1;
-  width: 44.5%;
+  width: 50.5%;
   height: 100%;
   display: block;
   content: '';
@@ -112,6 +112,36 @@ body {
   background-position: center;
 }
 
+@media screen and (max-width: 780px) {
+  #cur-banner {
+      background-position: 25% center;
+  }
+}
+
+@media screen and (max-width: 967px) {
+  #cur-banner {
+      height: 300px;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  #cur-banner::before {
+      width: 100%;
+  }
+}
+
+/* @media screen and (max-width: 767px) {
+  #cur-banner::before {
+      width: 50%;
+  }
+} */
+
+@media screen and (max-width: 1199px) {
+  #cur-banner::after {
+      -webkit-background-size: cover;
+      background-size: cover;
+  }
+}
 #comp {
   position: relative; 
 }
@@ -127,6 +157,13 @@ body {
     display: block;
     content: '';
 } 
+
+
+@media screen and (max-width: 1124px) {
+  #comp::before{
+     position: inherit;
+  }
+}
 
 .details::before{
   /* position: absolute; */
@@ -154,6 +191,12 @@ body {
   content: '';   
 }
 
+@media screen and (max-width: 1267px) {
+  .service::before {
+      width: 100%;
+      height: 100%;
+  }
+}
 
 /* HTML: <div class="loader"></div> */
 /* HTML: <div class="loader"></div> */

@@ -34,10 +34,10 @@ export const Products = ()=>{
     {/* <Image  quality="100"
          className=" opacity-30" layout="fill" alt="" src={'/fan.jpg'}/> */}
         <div className=" text-black lg:px-28 py-20 w-full">
-            <div className=" flex justify-center text-3xl md:text-3xl lg:text-4xl font-semibold">
+            <div className=" flex justify-center mt-5 text-center text-3xl md:text-3xl lg:text-4xl font-semibold">
             Brand Products We Supply
             </div> 
-         <div className=" lg:px-0 px-11 grid md:grid-cols-2 lg:grid-cols-3 mt-10">
+         <div className=" lg:px-0 px-0 sm:px-7 md:px-11 grid md:grid-cols-2 lg:grid-cols-3 mt-10">
           {products.map((prod, idx)=><ProducCards key={idx} heading={prod.name} image={prod.image} companies={prod.companies} />)}
          
          

@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-
+.github
 # testing
 /coverage
 
@@ -20,6 +20,7 @@
 .DS_Store
 *.pem
 .env
+.github
 # debug
 npm-debug.log*
 yarn-debug.log*

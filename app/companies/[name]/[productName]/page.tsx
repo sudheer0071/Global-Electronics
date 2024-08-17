@@ -173,9 +173,9 @@ console.log(productName);
     const res = await axios.get(`${BACKEND_URL}/product/${productName}`)
     const response = res.data
     console.log("inside the send req");
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000);
+    // setTimeout(() => {
+    // }, 2000);
+    setLoading(false)
     console.log(response);
     console.log(localStorage.getItem("productName"));
     setProducts(response)
@@ -186,7 +186,7 @@ console.log(productName);
     setShowSearch(false)
     setIsHydrated(true);
     sendReq(); 
-  }, [setProducts]);
+  }, []);
 
   if (loading) {
     return <div className="">
@@ -254,12 +254,12 @@ if (!isHydrated) {
                   <motion.div
                     animate={{ x: `-${miniIndex * 100}%` }}
                     transition={{ duration: 2.7, ease: [0.32, 0.72, 0, 1] }}
-                    className={` flex max-w-lg md:gap-10 ${images.length<4?' justify-center':''} lg:gap-`}>
+                    className={` flex max-w-lg gap-6 md:gap-10 ${images.length<4?' justify-center':''} lg:gap-`}>
                     {products.product.img.map((image, idx) => (
                       <img
                         key={idx}
                         width={120}
-                        src={`https://pub-148b30caae4a4303b96f2f375d5f82c0.r2.dev${image.image}`} className="  object-cover" alt="" />
+                        src={`https://pub-148b30caae4a4303b96f2f375d5f82c0.r2.dev${image.image}`} className=" rounded-md  object-cover" alt="" />
                     ))}
 
                     {/* {images.map((image) => (
@@ -304,7 +304,7 @@ if (!isHydrated) {
                 {prodName}
               </div>
               <div className=" mt-5 text-xl font-normal">
-             series #{prodName.split(' ')[4] + " " +prodName.split(' ')[5]}
+             series #{ prodName.includes("NMB")?prodName.split(' ')[4] + " " +prodName.split(' ')[5] : prodName.includes('SUNON')||prodName.includes('Melco')||prodName.includes('ADDA')||prodName.includes('DELTA')?prodName.split(' ')[2] + " " +prodName.split(' ')[3]: prodName.split(' ')[3] + " " +prodName.split(' ')[4]}
               </div> 
               
               <div className=" font-semibold mt-12 text-lg">
@@ -414,21 +414,24 @@ if (!isHydrated) {
 
 
 const ProductDetails = ({ name, content }: { name:string, content: string,  }) => {
-  return <div>
-    <div className=" details ml-4 font-light max-w-xl flex">
-      <p className=" ml-3"> Comes with a <div className="inline text-sky-600 font-medium">{name}</div>  of <div className=" inline text-emerald-600 font-medium">{content} </div> </p>
+  return <div className="flex mt-1 gap-6">
+    <div className=" ml-4 font-light">
+      <div className=" ml-3"> <div className=" borde text-sky-600 font-medium w-32">{ name.includes('ac')?'AC/DC': name.split
+      (' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}  </div>  
     </div>
   </div>
+    <div className=" -ml-10">:</div>
+    <div className=" text-emerald-600 font-medium">{content} {name.toLowerCase()=='instock'?'Yes':''}  </div> </div>
 }
 
 const Specifications = ({ name, value, num }: { name: string, value: string, num: number }) => {
   return <div>
     <div className=" grid grid-cols-2">
       <div className={` ${num % 2 == 0 ? 'bg-[#348ad4]' : 'bg-[#6da9dd]'} text-white font-medium text-lg px-5 py-3`}>
-        {name}
+      { name.includes('ac')?'AC/DC': name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
       </div>
       <div className=" bg-white text-lg font-medium py-3 px-10">
-        {value}
+        {value}  {name.toLowerCase()=='instock'?'Yes':''}
       </div>
     </div>
   </div>

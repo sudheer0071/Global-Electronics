@@ -492,10 +492,10 @@ manufacturer
   
     useEffect(()=>{ 
       
-      setTimeout(() => { 
-        console.log("company = "+company);
+      // setTimeout(() => { 
+      //   console.log("company = "+company);
+      // }, 2000);
       sendReq() 
-      }, 2000);
     },[])
      
   if (company!=name.name) {

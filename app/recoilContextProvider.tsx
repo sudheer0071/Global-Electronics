@@ -38,6 +38,11 @@ export const productNameState = atom<string>({
   effects_UNSTABLE: isBrowser ? [persistAtom] : [],
 })
 
+export const responsiveNavState = atom<boolean>({
+  key:'responsive',
+  default:false, 
+})
+
 export default function RecoilContextProvider({ children }:{children:ReactNode}){
   return <RecoilRoot>{children}</RecoilRoot>
 }

@@ -83,9 +83,9 @@ import { Loader } from "../components/Loader"
     const res = await axios.get(`${BACKEND_URL}/companies/all`)
     const response = res.data
     console.log("inside the send req");
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000);
+    // setTimeout(() => {
+    // }, 2000);
+    setLoading(false)
     setCompanies(response)
     console.log(response);
     // setCompany(response)
@@ -94,8 +94,8 @@ import { Loader } from "../components/Loader"
   
   useEffect(() => {
     sendReq();
-    setTimeout(() => {
-    }, 2000);
+    // setTimeout(() => {
+    // }, 2000);
   }, []);
 
   // if (loading) {

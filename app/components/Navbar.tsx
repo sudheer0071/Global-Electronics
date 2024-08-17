@@ -6,8 +6,8 @@ import { Button } from "./ui/Button";
 import Link from "next/link";
 import { EnquiryCard } from "./cards/EnquiryCard";
 import { useRecoilState } from "recoil";
-import {  quoteState, sendEnquiryState, showSearchState } from "../recoilContextProvider";
-import { ExternalLink, Link2Icon, MenuIcon, Search } from "lucide-react";
+import {  enquiryState, productNameState, quoteState, responsiveNavState, sendEnquiryState, showSearchState } from "../recoilContextProvider";
+import { Cross, ExternalLink, Link2Icon, MenuIcon, Phone, PhoneCall, Search, X } from "lucide-react";
 import { countries } from "./sample";
 import axios from "axios";
 import { BACKEND_URL } from "../lib/config";
@@ -26,12 +26,15 @@ export default function Navbar() {
 function NavbarCheck({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   const [active2, setActive2] = useState<string | null>(null);
-  const [showEnquiryCard, setShowEnquiryCard] = useRecoilState(quoteState);
+  const [showEnquiryCard, setShowEnquiryCard] = useRecoilState(enquiryState);
+  const [showQuoteCard, setShowQuoteCard] = useRecoilState(quoteState);
   const [sendEnquiry, setSendEnquiry] = useRecoilState(sendEnquiryState)
-  const[start,setStart] = useState(false) 
+  const[start,setStart] = useRecoilState(responsiveNavState) 
   const [showSearch, setShowSearch] = useRecoilState(showSearchState)
   const [list, setList] = useState([])
   const [responseiveNav, setResponsiveNav] = useState(false)
+  const [productName, setProductName] = useRecoilState(productNameState)
+
   const[searchTerm, setSearchTerm] = useState('')
   const[searchResult, setSearchResult] = useState<[{company:string [], product:string[]}]>([
     {
@@ -118,6 +121,13 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
   debounceSearch(value)
 }
  
+
+ 
+  const toggleQuoteCard = () => {
+    console.log('inside the quote card');
+    
+    setShowQuoteCard(!showQuoteCard); 
+  };
  
   const toggleEnquiryCard = () => {
     setShowEnquiryCard(!showEnquiryCard); 
@@ -136,7 +146,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
 
       console.log(item.product.length);
       return <div key={idx2}>
-         <Link onClick={()=>{setSearchTerm(''); setResponsiveNav(!responseiveNav)}} href={`/companies/${companyName}/${item.product[idx2][1]}`} key={idx2} >
+         <Link onClick={()=>{  setProductName(companyName + " "+ item.product[idx2][1]+item.product[idx2][2] +item.product[idx2][3] ); !isLargeScreen?setResponsiveNav(!responseiveNav):setSearchTerm('')}} href={`/companies/${companyName}/${item.product[idx2][1]}`} key={idx2} >
     <div className=" hover:bg-slate-100 p-2 hover:scale-105 hover:text-slate-800 transition-all duration-500 cursor-pointer mt-2 border-b-2 "> {companyName}, {item.product[idx2]}  </div> 
      </Link>
       </div>
@@ -161,30 +171,57 @@ const sendReq = async () => {
   // setCompany(response)
 }
 
+const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsLargeScreen(window.innerWidth >= 1024); // Adjust the breakpoint as needed
+  };
+
+  window.addEventListener('resize', handleResize);
+  handleResize(); // Set initial value
+
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
+
   return (
     <div
-      className={cn("fixed flex-none inset-x-11 mx-aukto w-full z-50", className)}
+      className={cn("fixed flex-none inset-x-11 mx-aukto w-full z-40", className)}
     >
       <div className="flex h-20">
           
         <div className=" bg-white shadow-md w-full"> 
-          <div className=" flex p-3 md:p-0 lg:p-0  ">
+          <div className=" flex p-[2px] sm:p-3 md:p-0 lg:p-0  ">
           <div className=" p-1 px-2 cursor-pointer" >
             <Link href={"/"}>
             <img width={80} src="https://5.imimg.com/data5/SELLER/Logo/2023/8/332359348/WL/RS/SO/102816454/logo-90x90.png" alt="" />
             </Link>
           </div>
 
-          <div className="  text-black text-xl md:text-xl lg:text-2xl text-dcenter mt:mt-4 lg:mt-4 fldex items-center w-[500px] font-medium">
-         <Link href={"/"}>
+          <div className=" flex text-black text-lg sm:text-xl md:text-xl lg:text-2xl text-dcenter mt:mt-4 lg:mt-4 md:w-[500px] lg:w-[500px] font-medium gap-4">
+         <Link className="" href={"/"}>
             Global Electronics Solutions
-         </Link>
-            <div className="  ">
-              <div className=" text-xs max-w-xs md:max-w-sm lg:max-w-sm">Global Electronic Solutions, Gurgaon, Gurugram, Haryana</div>
+            <div className=" items-center  ">
+              <div className=" text-xs   md:max-w-sm lg:max-w-sm">Global Electronic Solutions, Gurgaon, Gurugram, Haryana
+                </div> 
             </div>
+         </Link>
+                <div className=" flex -mt-4 items-center"> 
+                  <PhoneCall/> 
+                  <div className="text-base ml-4">
+                  <div>
+                    8383 23343
+                  </div>
+                  <div>
+                    2342 23343
+                  </div>
+                  </div>
+                </div>
           </div>
-          <div onClick={()=>{ setResponsiveNav(!responseiveNav);setShowSearch(false);setSearchTerm('') }} className=" md:hidden lg:hidden cursor-pointer text-black">
-           <MenuIcon size={45}/>
+          <div onClick={()=>{ setResponsiveNav(!responseiveNav); setShowSearch(false);setSearchTerm('') }} className=" scale-75 md:scale-100 lg:scale-100 md:hidden lg:hidden cursor-pointer text-black z-50 transition-all duration-500">
+            {responseiveNav?<X size={45} className=" transition-all duration-500"/>: <MenuIcon size={45} className=" transition-all duration-500"/>}
+          
         </div> 
           </div>
           <motion.div
@@ -199,7 +236,7 @@ const sendReq = async () => {
           }} 
             
            className={`${responseiveNav?'':'hidden'} text-black -mt-2 border-t-4 pt-3 justify-center bg-white w-full pb-3 shadow-md`}>
-          <div className=" p-3">
+          <div className=" p-1 lg:p-3">
           <div className=" relative flex justify-center flex-col items-center -mt-2 w-full">
         <div className="flex flex-col  w-full items-center relative text-black">
   <input  
@@ -244,7 +281,7 @@ const sendReq = async () => {
 </div>
 
           <div className=" mt-5 ">
-            <Button quote={true} nav={true} label={"Request a quote "} height={12} onclick={toggleEnquiryCard} productCard={false} />
+            <Button quote={true} nav={true} label={"Request a quote "} height={12} onclick={()=> {toggleEnquiryCard(); setResponsiveNav(!responseiveNav)}} productCard={false} />
           </div>
         </div> 
           </div>
@@ -259,7 +296,7 @@ const sendReq = async () => {
               </div>
             </MenuItem> */} 
             <MenuItem setActive={setActive2} active={active2} item={"Companies"}>
-              <div onClick={()=>{}} className=" flex flex-col space-y-5 text-sm">
+              <div onClick={()=>{ }} className=" flex flex-col space-y-5 text-sm">
                 {list.map((company, idx) => { 
                   // const formattedCompany = company.comapny_name.charAt(0).toUpperCase() + company.company_name.slice(1).toLowerCase();
                   return (
@@ -365,11 +402,12 @@ const sendReq = async () => {
 </div>
 
           <div className=" -mt-1 -ml-3">
-            <Button quote={true} nav={true} label={"Request a quote "} height={2} onclick={toggleEnquiryCard} productCard={false} />
+            <Button quote={true} nav={true} label={"Request a quote "} height={2} onclick={()=>toggleQuoteCard()} productCard={false} />
           </div>
         </div> 
       </div>
-      {showEnquiryCard && <EnquiryCard quote={ true}  />}
+      {/* {showEnquiryCard && <EnquiryCard quote={ true}  />} */}
+      {showQuoteCard && <EnquiryCard quote={ true}  />}
       {sendEnquiry && <EnquiryCard sendEnq={ true}  />}
 
     </div>

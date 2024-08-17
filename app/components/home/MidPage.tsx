@@ -27,14 +27,14 @@ export const MidPage = ()=>{
           <Wrench className=" inline"/> <p className=" inline ml-3">Tell Us Your Ideal Product(Type, Series & Code)</p> 
             </div>
             <div className="  lg:hidden flex">
-            <Button  onclick={()=>setSendEnquiry(!sendEnquiry)} label={"Talk to Experts"} height={2} />
+            <Button talk={true} onclick={()=>setSendEnquiry(!sendEnquiry)} label={"Talk to Experts"} height={2} />
          </div>
             </div>
         </div> 
           </div>
           <div className=" hidden right-0 w-[1000px] h-screen justify-center items-center lg:flex image-bg">
          <div>
-          <Button  onclick={()=>setSendEnquiry(!sendEnquiry)} label={"Talk to Experts"} height={2} />
+          <Button talk={true} onclick={()=>setSendEnquiry(!sendEnquiry)} label={"Talk to Experts"} height={2} />
          </div>
         </div>
         {sendEnquiry && <EnquiryCard sendEnq={ true}  />}

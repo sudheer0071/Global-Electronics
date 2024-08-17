@@ -9,10 +9,18 @@
 }
 
 .banner{
-  background-image: url(https://www.plc-sensors.com/wp-content/themes/mml-theme/dist/img/p01/s01-bg.jpg);
-  background-size: cover; /* or background-size: 100% 100%; */
+  background-image: url(../public/11013434_45256-Photoroom.png);
+  background-size: 100% 120%; 
   background-position: center;
-  /* background-repeat: no-repeat;  */
+  background-repeat: no-repeat; 
+}
+
+
+@media screen and (max-width: 580px) {
+  .banner {
+    background-size: 140% 100%; 
+
+  }
 }
 
 .image-bg{
@@ -69,7 +77,7 @@ body {
 }
 
 .footer{
-  background-image: url(https://www.plc-sensors.com/wp-content/themes/mml-theme/dist/img/common/footer-bg.jpg);
+  background-image: url(https://pub-c4a7d69da79740e5aca4cfb38669696e.r2.dev/Design.png);
   background-size: cover; /* or background-size: 100% 100%; */
   background-position: center;
   /* background-repeat: no-repeat;  */
@@ -140,6 +148,8 @@ body {
   #cur-banner::after {
       -webkit-background-size: cover;
       background-size: cover;
+  background-size: 350% 100%;
+     
   }
 }
 #comp {

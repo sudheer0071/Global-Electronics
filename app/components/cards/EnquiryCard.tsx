@@ -65,7 +65,7 @@ export const EnquiryCard = ({quote, enquiry, contact, sendEnq, productName, quan
 
     if (name=="" ||phone=="") {
       toast.warning( 
-          "Please enter all the necessary feilds"
+          "Please enter all the necessary feildszzzzzzzzzzzzzzz"
      )
     }
 else{
@@ -76,8 +76,8 @@ else{
     email, name, message, phone, files, isProduct:false
   })
   const msg = res.data 
-  toast.success(msg.message)
   console.log(msg);
+  toast.success(msg.message)
   setTimeout(() => {
     setQuoteBtn(prevState => !prevState);  
   }, 1500);   
@@ -95,19 +95,24 @@ else{
    )
     }
     else{
-      toast.loading("Sending mail...")
-      const res = await axios.post("/api/send", {
-       email, name, message, product , phone, files, isProduct:true
-      })
-      const msg = res.data
-      toast.success(msg.message)
-      console.log(msg);  
-      setShowSearch(false) 
-      setTimeout(() => {
-        if(sendEnq) setSendEnquiry(prevState => !prevState);
-        else setEnquiryBtn(prevState => !prevState);  
-     
-      }, 1500);
+      try {
+        
+        toast.loading("Sending mail...")
+        const res = await axios.post("/api/send", {
+         email, name, message, product , phone, files, isProduct:true
+        })
+        const msg = res.data
+        toast.success(msg.message)
+        console.log(msg);  
+        setShowSearch(false) 
+        setTimeout(() => {
+          if(sendEnq) setSendEnquiry(prevState => !prevState);
+          else setEnquiryBtn(prevState => !prevState);   
+        }, 1500);
+      } catch (error) {
+  toast.error('Error sending mail please try again in some time');
+        
+      }
     }
     }
 
@@ -120,16 +125,22 @@ else{
    )
     }
     else{
-      toast.loading("Sending mail...")
-      const res = await axios.post("/api/send", {
-       email, name, message , phone, files, isProduct:false
-      })
-      const msg = res.data
-      toast.success(msg.message)
-      console.log(msg);  
-      setTimeout(() => {
-        setContactBtn(prevState => !prevState);  
-      }, 1500);
+      try {
+        
+        toast.loading("Sending mail...")
+        const res = await axios.post("/api/send", {
+         email, name, message , phone, files, isProduct:false
+        })
+        const msg = res.data
+        console.log(msg);  
+        toast.success(msg.message)
+        setTimeout(() => {
+          setContactBtn(prevState => !prevState);  
+        }, 1500);
+      } catch (error) {
+  toast.error('Error sending mail please try again in some time');
+        
+      }
     }
     }
 
@@ -191,26 +202,26 @@ else{
         <div className=" md:hidden lg:hidden">
         <Toaster richColors className=" bg-red-300" position="top-center"/>
         </div>
-          <div className=" text-4xl font-semibold ">
+          <div className=" text-2xl md:text-3xl lg:text-4xl font-semibold ">
             {enquiry||sendEnq?'Request for Enquiry':quote?'Request A Quoate':"Contact Us"} 
            
           </div>
-          <div className={` font-thin `}>
+          <div className={` text-sm lg:text-base font-thin `}>
           Our product expert is standing by to give 24/7 consultation.
           </div>
           <div className={`flex  gap-5 ${quote?' mt-3 md:mt-5 lg:mt-7':' mt-1 md:mt-3 lg:mt-3'}`}>
                <div className=" flex flex-col w-full">
                 <label htmlFor="adsfasf" className=" text-left" >Name <div className=" inline text-yellow-500 text-xl">*</div>  </label>
-                <input onChange={(e)=> setName(e.target.value)} placeholder="your name" type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+                <input onChange={(e)=> setName(e.target.value)} placeholder="your name" type="text" name="" id="" className=" text-sm md:text-base lg:text-base text-black p-1 md:p-3 lg:p-3 mt-3 w-full h-10 md:h-12 lg:h-12 rounded-md " /> 
                </div>
                <div className=" flex flex-col w-full">
                 <label htmlFor="adsfasf" className=" text-left">Phone <div className=" inline text-yellow-500 text-xl">*</div>  </label>
-                <input placeholder="Phone number" onChange={e=>setPhone(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+                <input placeholder="Phone number" onChange={e=>setPhone(e.target.value)} type="text" name="" id="" className="text-sm md:text-base lg:text-base text-black p-1 md:p-3 lg:p-3 mt-3 w-full h-10 md:h-12 lg:h-12 rounded-md " /> 
                </div> 
           </div>
                <div className={`text-left ${quote?'mt-3 md:mt-5 lg:mt-7':' mt-1 md:mt-3 lg:mt-3'}`}>
                  <label htmlFor="" className=" ">Email <div className=" inline text-yellow-500 text-xl"></div> </label>
-                 <input placeholder="example@gmail.com" onChange={e=>setEmail(e.target.value)} type="text" name="" id="" className=" text-black p-3 mt-3 w-full h-12 rounded-md " /> 
+                 <input placeholder="example@gmail.com" onChange={e=>setEmail(e.target.value)} type="text" name="" id="" className="text-sm md:text-base lg:text-base text-black p-1 md:p-3 lg:p-3 mt-3 w-full h-10 md:h-12 lg:h-12 rounded-md " /> 
                </div>  
                {enquiry||sendEnq? <div className={`text-left mt-1 md:mt-3 lg:mt-4`}>
                  <label htmlFor="" className=" flex justify-between">
@@ -221,16 +232,16 @@ else{
                     Quantity: {quantity}
                   </div>
                     </label>
-                 <input value={productName?productName:product} placeholder="eg - Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J" onChange={e=>{productName?setProduct(productName):setProduct(e.target.value)}} type="text" name="" id="" className={`${productName?' text-slate-600 cursor-not-allowed':''} text-black p-1 md:p-3 lg:p-3 mt-1 md:mt-3 lg:mt-3 w-full h-12 rounded-md `} /> 
+                 <input value={productName?productName:product} placeholder="eg - Mitsubishi MELSERVO-J4 Servomotor 7.5kW HG-SR702J" onChange={e=>{productName?setProduct(productName):setProduct(e.target.value)}} type="text" name="" id="" className={`${productName?' text-slate-600 cursor-not-allowed':''} text-sm md:text-base lg:text-base text-black p-1 md:p-3 lg:p-3 mt-3 w-full h-10 md:h-12 lg:h-12 rounded-md `} /> 
                </div> :''}
                
                <div className={`text-left ${quote?' mt-3 md:mt-5 lg:mt-7':' mt-2 md:mt-4 lg:mt-5'}`}>
                  <label htmlFor="" className=" ">Your Message </label>
-                 <textarea placeholder="Any extra detail you want to share?" onChange={e=>setMessage(e.target.value)} name="" id="" className=" text-black p-3 mt-3 w-full h-[100px] rounded-md " /> 
+                 <textarea placeholder="Any extra detail you want to share?" onChange={e=>setMessage(e.target.value)} name="" id="" className=" text-black p-3 mt-3 w-full text-sm md:text-base lg:text-base h-[100px] rounded-md " /> 
                </div>
                <div className={`text-left ${quote?' mt-3 md:mt-5 lg:mt-7':' mt-2 md:mt-4 lg:mt-4'}`}>
                 
-                 <label htmlFor="" className=" ">If you have any reference, please upload images or files here </label>
+                 <label htmlFor="" className=" text-sm lg:text-base">If you have any reference, please upload images or files here </label>
                  <div className={` ${quote?' mt-3 md:mt-5 lg:mt-7':' mt-1 md:mt-2 lg:mt-2'}`}>
                 <FileUpload onFilesChange={handleFilesChange} />
                  </div>

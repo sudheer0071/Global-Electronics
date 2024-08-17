@@ -14,13 +14,42 @@ import { Cross, Crosshair, DoorClosed, FolderClosed, X } from "lucide-react";
 import { Button } from "./components/ui/Button";
 import { EnquiryCard } from "./components/cards/EnquiryCard";
 import { EmailTemplate } from "./components/EmailTemplate";
+import { useRecoilState } from "recoil";
+import { responsiveNavState } from "./recoilContextProvider";
 export default function Home() {
-  const [showEnquiryCard, setShowEnquiryCard] = React.useState(false);
+ 
+  const [responseiveNav, setResponsiveNav] = useRecoilState(responsiveNavState)
 
-  const toggleEnquiryCard = () => {
-    setShowEnquiryCard(prevState => !prevState);
-  };
 
+  // Handle scroll event
+  React.useEffect(() => {
+    const handleScroll = () => {
+      console.log('User scrolled the page');
+      if (window.scrollY > 100) {
+        setResponsiveNav(false);
+      } else {
+        setResponsiveNav(true);
+      }
+    };
+
+    // Handle touch event
+    const handleTouchMove = () => {
+      console.log('User moved on touch screen');
+      if (window.scrollY > 100) {
+        setResponsiveNav(false);
+      } else {
+        setResponsiveNav(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('touchmove', handleTouchMove);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
   return (
     <div className="bg-white">
       <Main />

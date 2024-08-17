@@ -16,7 +16,7 @@ export const ProducCards = ({heading, image, companies}:productProps)=>{
       {heading}
      </div>
      <div>
-      <img width={470} alt="" src={`${image}`} />
+      <img className=" aspect-[4/3]  " width={470} alt="" src={`${image}`} />
      </div>
      <div className=" px-5 py-4 shadow-lg text-black grid grid-cols-2">
        {companies.map((company, idx)=><Companies key={idx} name={company}/>)}  

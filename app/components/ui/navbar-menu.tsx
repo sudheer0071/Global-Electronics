@@ -25,11 +25,21 @@ export const MenuItem = ({
   item: string;
   children?: React.ReactNode;
 }) => {
+
+  const handleClick = () => {
+    if (active === item) {
+      setActive(''); // Reset to empty string if the item is already active
+    } else {
+      setActive(item); // Set the item as active
+    }
+  };
+
+
   return (
-    <div onMouseEnter={() => setActive(item)} className="relative ">
+    <div onClick={handleClick} onMouseEnter={() => setActive(item)} className="relative ">
       <motion.div
         transition={{ duration: 0.5 }}
-        className="cursor-pointer text-black transition-all duration-500 hover:text-yellow-500 hover:opacity-[0.9] "
+        className=" cursor-pointer text-black transition-all duration-500 hover:text-yellow-500 hover:opacity-[0.9] "
       > 
       <div className=" flex">
         {item} <ChevronDown className=" mt-1 ml-1 inline"/>
@@ -42,7 +52,7 @@ export const MenuItem = ({
           transition={transition}
         >
           {active === item && (
-            <div className="absolute z-50 top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-1">
+            <div className=" absolute z-50 top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-1">
               <motion.div
                 transition={transition}
                 layoutId="active" // layoutId ensures smooth animation

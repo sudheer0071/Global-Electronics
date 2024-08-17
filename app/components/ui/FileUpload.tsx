@@ -29,7 +29,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFilesChange }) => {
         type="file"
         multiple
         onChange={handleFileChange}
-        className=' border-2 text- rounded-md text-center hover:shadow-md hover:shadow-gray-400 cursor-pointer hover:scale-105 transition-all duration-500'
+        className=' border-2 text-sm lg:text-base rounded-md text-center hover:shadow-md hover:shadow-gray-400 cursor-pointer hover:scale-105 transition-all duration-500'
       />
     </div>
   );

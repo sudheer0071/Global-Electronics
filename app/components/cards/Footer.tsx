@@ -1,26 +1,50 @@
+'use client'
+
+import { BACKEND_URL } from "@/app/lib/config"
+import axios from "axios"
 import { LocateIcon, Mail, Phone } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
 
 
 export const Footer = ()=>{
+  
+  const [list, setList] = useState([''])
+  
+  useEffect(()=>{
+    sendReq()
+  },[])
+    
+  const sendReq = async () => { 
+    const res = await axios.get(`${BACKEND_URL}/companies/all`)
+    const response = res.data 
+    console.log("nav");
+    const lists = response.map((comp:any)=> comp.company_name)
+    console.log(lists);
+    
+    setList(lists)  
+    // setCompany(response)
+  }
   const feilds = [
     {
      name:'Home',
-     subfeilds: ['About', 'Service','Blog'] 
+     subfeilds: ['About'] 
     },
     
     {
      name:'Manufacturer',
-     subfeilds: ["Pro-face","Mitsubishi", "Omron", "Fanux", "Delta", "HITECH", "Yashkawa", "Keyence", "Sick", "Panacsonic", "intek/Weinvi", "Schneider", "Siemens" ,"Hongfa"] 
+     subfeilds: [...list] 
     },
     {
      name:'Products',
-     subfeilds: ['Measurement Instrument', 'PLC','Severmeter',"Severo drive", "HMI","VFD" ,"Sensor", "Circuit Breaker", "Relay" ] 
+     subfeilds: ['Cooling fans', 'Axial fans','Multipurpose fans',"Heating fans" ] 
     },
 
   ]
-  return <footer className="footer">
+  
+  
+  return <footer className="footer ">
     <div className=" pt-16 md:pt-20 lg:pt-32 pb-20 ">
       <div className=" px-8 lg:px-4 md:mx-20 lg:mx-28">
       <div className=" flex">
@@ -28,7 +52,7 @@ export const Footer = ()=>{
     <div className="  text-2xl font-bold ">
     Contact Us
     </div>
-    <div className=" mt-8 flex flex-col font-extralight">
+    <div className=" font-medium mt-8 flex flex-col">
       <div className=" mt-4">
     <Mail className=" inline mr-2"/> <a href="mailto:globalelectronicsggn@gmail.com">globalelectronicsggn@gmail.com</a> 
       </div>
@@ -47,7 +71,7 @@ Global Electronic Solutions, Gurgaon - 122505, Gurugram, Haryana, India
    </div>
 
    <div className=" hidden md:flex lg:flex flex-col ml-20"> 
-    {feilds.map((feild, idx)=><FooterContents key={idx} feilds={feild.name} names={feild.subfeilds} />)}  
+    {feilds.map((feild:any, idx)=><FooterContents key={idx} feilds={feild.name} names={feild.subfeilds} />)}  
    </div>
       </div>
       </div>
@@ -55,13 +79,13 @@ Global Electronic Solutions, Gurgaon - 122505, Gurugram, Haryana, India
       <div className=" border-t-2 border-slate-500">
         <div className="px-4 md:mx-20 lg:mx-28 md:flex lg:flex ">
         <div className=" flex py-3 md:p-0 lg:p-0  ">
-          <div className=" px- cursor-pointer" >
+          <div className=" mt cursor-pointer" >
             <Link href={"/"}>
             <img width={80} src="https://5.imimg.com/data5/SELLER/Logo/2023/8/332359348/WL/RS/SO/102816454/logo-90x90.png" alt="" />
             </Link>
           </div>
 
-          <div className=" text-slate-400 text-xl md:text-xl lg:text-2xl text-dcenter mt:mt-4 lg:mt-4 fldex items-center w-[500px] font-medium">
+          <div className=" text-slate-100 text-xl md:text-xl lg:text-2xl text-dcenter mt:mt-4 lg:mt-2  items-center w-[500px] font-medium">
          <Link href={"/"}>
             Global Electronics Solutions
          </Link>
@@ -71,7 +95,7 @@ Global Electronic Solutions, Gurgaon - 122505, Gurugram, Haryana, India
           </div> 
           </div>
    <div className=" text-gray-400 flex items-center lg:ml-[350px]"> 
-   Copyright© 2021 United Automation Co.,LTD All Rights Reserved
+   Copyright© 2021 Global Electronics Solutuons Co.,LTD All Rights Reserved
 
 
    </div>
@@ -94,8 +118,10 @@ export const FooterContents = ({feilds, names}:{feilds:string, names:string[]})=
 export const Names = ({name}:{name:string})=>{
 
 return <div className=" mt-4">
+     <Link  href={` ${name.includes('fans')?'/companies':name.includes('about')?'/':`/companies/${encodeURIComponent(name)}`} `}> 
   <div className="   text-sm font-extralight cursor-pointer hover:text-cyan-300 hover:underline">
     {name}
   </div>
+  </Link>
   </div>
 }

@@ -36,7 +36,8 @@ console.log(body.isProduct);
       react: EmailTemplate({ firstName:body.name, product:body.product , email:body.email, phone:body.phone, message:body.message, isProduct:body.isProduct}),
       attachments: body.files?.map((file:any)=>({
         filename:file.filename,
-        content:file.content
+        content:file.content,
+      
       }))
     });
 

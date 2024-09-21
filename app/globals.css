@@ -18,7 +18,7 @@
 
 @media screen and (max-width: 580px) {
   .banner {
-    background-size: 140% 100%; 
+    background-size: 210% 100%; 
 
   }
 }
@@ -120,6 +120,8 @@ body {
   background-position: center;
 }
 
+
+
 @media screen and (max-width: 780px) {
   #cur-banner {
       background-position: 25% center;
@@ -131,7 +133,13 @@ body {
       height: 300px;
   }
 }
-
+ 
+@media screen and (max-width: 1380px) {
+  .phonee {
+      display: block;
+  }
+}
+ 
 @media screen and (max-width: 580px) {
   #cur-banner::before {
       width: 100%;

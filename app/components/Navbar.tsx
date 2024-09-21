@@ -44,7 +44,7 @@ function NavbarCheck({ className }: { className?: string }) {
   ])
   const debounceTimeout = useRef<any>(null)
 
-  const DELAY = 2000
+  const DELAY = 500
 
 
 // Search Filteration
@@ -120,8 +120,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
   setStart(true) 
   debounceSearch(value)
 }
- 
-
+  
  
   const toggleQuoteCard = () => {
     console.log('inside the quote card');
@@ -189,7 +188,7 @@ useEffect(() => {
     <div
       className={cn("fixed flex-none inset-x-11 mx-aukto w-full z-40", className)}
     >
-      <div className="flex h-20">
+      <div className="flex sm:h-20 md:h-20 lg:h-20">
           
         <div className=" bg-white shadow-md w-full"> 
           <div className=" flex p-[2px] sm:p-3 md:p-0 lg:p-0  ">
@@ -199,22 +198,44 @@ useEffect(() => {
             </Link>
           </div>
 
-          <div className=" flex text-black text-lg sm:text-xl md:text-xl lg:text-2xl text-dcenter mt:mt-4 lg:mt-4 md:w-[500px] lg:w-[500px] font-medium gap-4">
+          <div className=" flex text-black text-lg sm:text-xl md:text-xl lg:text-2xl text-dcenter mt:mt-4 lg:mt-4 md:w-[500px] lg:w-[500px] font-medium lg:gap-4">
          <Link className="" href={"/"}>
             Global Electronics Solutions
             <div className=" items-center  ">
               <div className=" text-xs   md:max-w-sm lg:max-w-sm">Global Electronic Solutions, Gurgaon, Gurugram, Haryana
                 </div> 
-            </div>
-         </Link>
-                <div className=" flex -mt-4 items-center"> 
+                <div className=" lg:hidden flex gap-3 lg:-mt-4 items-center"> 
                   <PhoneCall/> 
-                  <div className="text-base ml-4">
+                  <div className=" flex gap-5 text-xs lg:text-base lg:ml-4">
                   <div>
-                    8383 23343
+                    8383 23343,
                   </div>
                   <div>
                     2342 23343
+                  </div>
+                  </div>
+                </div>
+                <div className=" hidden md:hidden custom-lg:hidden lg:flex gap-3 lg:mt-3 bg-white p-1 rounded-md items-center"> 
+                  <PhoneCall/> 
+                  <div className=" flex gap-5 text-xs lg:text-base lg:ml-4">
+                  <div>
+                    8383 23343,
+                  </div>
+                  <div>
+                    2342 23343
+                  </div>
+                  </div>
+                </div>
+            </div>
+         </Link>
+                <div className=" phone2 hidden md:hidden custom-lg:flex lg:hidden lg:-mt-4 items-center"> 
+                  <PhoneCall/> 
+                  <div className=" text-xs lg:text-base lg:ml-4">
+                  <div>
+                    83843 23343
+                  </div>
+                  <div>
+                    23442 23343
                   </div>
                   </div>
                 </div>
@@ -280,8 +301,8 @@ useEffect(() => {
   </div>
 </div>
 
-          <div className=" mt-5 ">
-            <Button quote={true} nav={true} label={"Request a quote "} height={12} onclick={()=> {toggleEnquiryCard(); setResponsiveNav(!responseiveNav)}} productCard={false} />
+          <div className=" mt-5 "> 
+            <Button quote={true} nav={true} label={"Request a quote "} height={12} onclick={()=> {toggleQuoteCard(); setResponsiveNav(!responseiveNav)}} productCard={false} />
           </div>
         </div> 
           </div>

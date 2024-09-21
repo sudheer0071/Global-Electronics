@@ -31,13 +31,12 @@ console.log(body.isProduct);
   try {
     const { data, error } = await resend.emails.send({
       from: 'enquiry@globalelectronicsolutions.in',
-      to: ['sudheer1614@gmail.com'],
+      to: ['globalelectronicsggn@gmail.com'],
       subject: 'testing email 📨',
       react: EmailTemplate({ firstName:body.name, product:body.product , email:body.email, phone:body.phone, message:body.message, isProduct:body.isProduct}),
       attachments: body.files?.map((file:any)=>({
         filename:file.filename,
-        content:file.content,
-      
+        content:file.content
       }))
     });
 

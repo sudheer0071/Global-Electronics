@@ -515,7 +515,7 @@ manufacturer
           <div className=" px-4 lg:max-w-7xl w-full  lg:mx-auto">
           <div className=" lg:flex">
           <div className=" z-0 hd flex justify-center"> 
-            <img className="shadow-2xl lg:ml-10" src={`${R2}${companies.manufacturer.img[0].image}`} alt="" /> 
+            <img className=" aspect-[8/4] bg-white rounded-md p-3 shadow-2xl lg:ml-14" src={ companies.manufacturer.company_name=='DELTA'?'https://www.plc-sensors.com/wp-content/uploads/2020/03/Delta-1.jpg': `${R2}${companies.manufacturer.img[0].image}`} alt="" /> 
           </div>
           <div>
           <div className=" mx-2 sm:mx-5 md:mx-7 lg:mx-0 lg:ml-24 lg:max-w-2xl font-light text-black">

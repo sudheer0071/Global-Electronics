@@ -29,6 +29,9 @@ const config: Config = {
       transitionDuration: {
         '300': '300ms',
       },
+      screens:{
+        'custom-lg': '1430px', // Custom breakpoint for 1230px
+      }
     },
   },
   plugins: [],

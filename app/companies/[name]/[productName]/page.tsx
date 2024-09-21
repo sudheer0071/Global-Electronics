@@ -391,7 +391,7 @@ if (!isHydrated) {
                 <ChevronsLeftIcon className=" h-6 w-6" />
               </motion.button>
             )}
-            { relatedIndex+ (isLargeScreen?3:0)  < images.length ? (
+            { relatedIndex+ (isLargeScreen?5:5)  < images.length ? (
               <button className="absolute bg-gray-200 right-2 top-1/2 -mt-4 flex h-8 w-8 items-center justify-center hover:scale-125 rounded-full hover:bg-cyan-400 transition duration-500" onClick={() => setRelatedIndex(relatedIndex + 1)}>
                 <ChevronsRightIcon className=" h-6 w-6" />
               </button>

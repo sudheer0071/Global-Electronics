@@ -16,6 +16,8 @@ import { EnquiryCard } from "./components/cards/EnquiryCard";
 import { EmailTemplate } from "./components/EmailTemplate";
 import { useRecoilState } from "recoil";
 import { responsiveNavState } from "./recoilContextProvider";
+import { BACKEND_URL } from "./lib/config";
+import axios from "axios";
 export default function Home() {
  
   const [responseiveNav, setResponsiveNav] = useRecoilState(responsiveNavState)
@@ -42,6 +44,14 @@ export default function Home() {
       }
     };
 
+    sendReq('NMB Technologies Corporation')
+    sendReq('EBM PAPST')
+    sendReq('SUNON')
+    sendReq('ADDA')
+    sendReq('Melco')
+    sendReq('Sanyo Denki')
+    sendReq('DELTA')
+
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('touchmove', handleTouchMove);
 
@@ -50,6 +60,23 @@ export default function Home() {
       window.removeEventListener('touchmove', handleTouchMove);
     };
   }, []);
+
+  const sendReq = async (name:string) => {
+    try{ 
+      const res = await axios.get(`${BACKEND_URL}/companies/${name}`)
+      const response = res.data
+      console.log("inside the send req");
+      
+    console.log(response); 
+  }
+  catch(e){
+    console.log("this company is not in database");
+    console.log(e); 
+  }
+  }
+
+
+
   return (
     <div className="bg-white">
       <Main />
